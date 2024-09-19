@@ -32,6 +32,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -71,6 +72,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
+    private Servo servo1 = null;
+    private Servo servo2 = null;
 
     @Override
     public void runOpMode() {
@@ -150,7 +153,25 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
 
-            // Send calculated power to wheels
+            // Send calculated power to wheels\
+            double servoPos = 0.5;
+            double servoPos2 = 0.5;
+            if (gamepad2.a){
+                servo1.setPosition(servoPos);
+                servoPos=servoPos+0.05;
+            }
+            if (gamepad2.b){
+                servo1.setPosition(servoPos);
+                servoPos=servoPos-0.05;
+            }
+            if (gamepad2.x){
+                servo2.setPosition(servoPos);
+                servoPos2=servoPos2+0.05;
+            }
+            if (gamepad2.y){
+                servo2.setPosition(servoPos);
+                servoPos2=servoPos2-0.05;
+            }
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
@@ -161,5 +182,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.update();
+            telemetry.addData("servo1",+servoPos);
+            telemetry.addData("servo2",+servoPos2);
         }
     }}
