@@ -74,6 +74,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private Servo servo1 = null;
     private Servo servo2 = null;
+    private Servo servo3 = null;
+    private Servo servo4 = null;
     @Override
     public void runOpMode() {
 
@@ -160,21 +162,35 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             // Send calculated power to wheels\
             double servoPos = 0.5;
             double servoPos2 = 0.5;
+            double servoPos3 = 0.5;
+            double servoPos4 = 0.5;
             if (gamepad2.a){
-                servo1.setPosition(servoPos);
                 servoPos=servoPos+0.05;
+                servo1.setPosition(servoPos);
             }
             if (gamepad2.b){
-                servo1.setPosition(servoPos);
                 servoPos=servoPos-0.05;
+                servo1.setPosition(servoPos);
             }
             if (gamepad2.x){
-                servo2.setPosition(servoPos);
                 servoPos2=servoPos2+0.05;
+                servo2.setPosition(servoPos);
             }
             if (gamepad2.y){
-                servo2.setPosition(servoPos);
                 servoPos2=servoPos2-0.05;
+                servo2.setPosition(servoPos);
+            }
+            if (gamepad2.left_bumper) {
+                servoPos3 = servoPos3 + 0.5;
+                servo3.setPosition(servoPos3);
+                servoPos4 = servoPos4 + 0.5;
+                servo4.setPosition(servoPos4);
+            }
+            if (gamepad2.right_bumper) {
+                servoPos3 = servoPos3 - 0.5;
+                servo3.setPosition(servoPos3);
+                servoPos4 = servoPos4 - 0.5;
+                servo4.setPosition(servoPos4);
             }
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
@@ -188,5 +204,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.update();
             telemetry.addData("servo1",+servoPos);
             telemetry.addData("servo2",+servoPos2);
+            telemetry.addData("servo3",+servoPos3);
+            telemetry.addData("servo4",+servoPos4);
         }
     }}
