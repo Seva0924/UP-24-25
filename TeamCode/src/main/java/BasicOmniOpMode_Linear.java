@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
 
+
 /*
  * This file contains an example of a Linear "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -84,7 +85,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-
+        servo1 = hardwareMap.get(Servo.class, "servo1");
+        servo2 = hardwareMap.get(Servo.class, "servo2");
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
         // ########################################################################################
@@ -99,6 +101,11 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -154,23 +161,26 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             */
 
             // Send calculated power to wheels\
-            double servoPos = 0.5;
-            double servoPos2 = 0.5;
+            double curr_servoPos = 0.5;
+            double curr_servoPos2 = 0.5;
             if (gamepad2.a){
-                servo1.setPosition(servoPos);
-                servoPos=servoPos+0.05;
+                double tempservoPos=curr_servoPos+0.2;
+                servo1.setPosition(tempservoPos);
             }
             if (gamepad2.b){
-                servo1.setPosition(servoPos);
-                servoPos=servoPos-0.05;
+                double tempservoPos=curr_servoPos-0.2;
+                servo1.setPosition(tempservoPos);
+
             }
             if (gamepad2.x){
-                servo2.setPosition(servoPos);
-                servoPos2=servoPos2+0.05;
+                double tempservoPos2=curr_servoPos2+0.2;
+                servo2.setPosition(tempservoPos2);
+
             }
             if (gamepad2.y){
-                servo2.setPosition(servoPos);
-                servoPos2=servoPos2-0.05;
+                double tempservoPos2=curr_servoPos2-0.2;
+                servo2.setPosition(tempservoPos2);
+
             }
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
@@ -182,7 +192,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.update();
-            telemetry.addData("servo1",+servoPos);
-            telemetry.addData("servo2",+servoPos2);
+            telemetry.addData("servo1",+curr_servoPos);
+            telemetry.addData("servo2",+curr_servoPos2);
         }
     }}
