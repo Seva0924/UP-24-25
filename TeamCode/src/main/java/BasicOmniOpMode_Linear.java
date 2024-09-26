@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
 
+
 /*
  * This file contains an example of a Linear "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -72,10 +73,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
-    private Servo servo1 = null;
-    private Servo servo2 = null;
-    private Servo servo3 = null;
-    private Servo servo4 = null;
+    private Servo claw = null;
+    private Servo wrist = null;
+    private Servo leftArmServo = null;
+    private Servo rightArmServo = null;
     @Override
     public void runOpMode() {
 
@@ -85,6 +86,10 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        claw = hardwareMap.get(Servo.class, "claw");
+        wrist = hardwareMap.get(Servo.class, "wrist");
+        leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
+        rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -160,37 +165,38 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             */
 
             // Send calculated power to wheels\
-            double servoPos = 0.5;
-            double servoPos2 = 0.5;
-            double servoPos3 = 0.5;
-            double servoPos4 = 0.5;
-            if (gamepad2.a){
-                servoPos=servoPos+0.05;
-                servo1.setPosition(servoPos);
+            double clawPos = 0.5;
+            double wristPos = 0.5;
+            double leftArmServoPos = 0.5;
+            double rightArmServoPos = 0.5;
+
+            if (gamepad2.a){ //Open Claw
+                clawPos=clawPos+0.05;
+                claw.setPosition(clawPos);
             }
-            if (gamepad2.b){
-                servoPos=servoPos-0.05;
-                servo1.setPosition(servoPos);
+            if (gamepad2.b){ //Close Claw
+                clawPos=clawPos-0.05;
+                claw.setPosition(clawPos);
             }
-            if (gamepad2.x){
-                servoPos2=servoPos2+0.05;
-                servo2.setPosition(servoPos);
+            if (gamepad2.x){ // Wrist Moves ____?
+                wristPos=wristPos+0.05;
+                wrist.setPosition(wristPos);
             }
-            if (gamepad2.y){
-                servoPos2=servoPos2-0.05;
-                servo2.setPosition(servoPos);
+            if (gamepad2.y){ // Wrist Moves ___?
+                wristPos=wristPos-0.05;
+                wrist.setPosition(wristPos);
             }
-            if (gamepad2.left_bumper) {
-                servoPos3 = servoPos3 + 0.5;
-                servo3.setPosition(servoPos3);
-                servoPos4 = servoPos4 + 0.5;
-                servo4.setPosition(servoPos4);
+            if (gamepad2.left_bumper) { //Arms Raise ____?
+                leftArmServoPos = leftArmServoPos + 0.5;
+                leftArmServo.setPosition(leftArmServoPos);
+                rightArmServoPos = rightArmServoPos + 0.5;
+                rightArmServo.setPosition(rightArmServoPos);
             }
-            if (gamepad2.right_bumper) {
-                servoPos3 = servoPos3 - 0.5;
-                servo3.setPosition(servoPos3);
-                servoPos4 = servoPos4 - 0.5;
-                servo4.setPosition(servoPos4);
+            if (gamepad2.right_bumper) { //Arms Raise ____?
+                leftArmServoPos = leftArmServoPos - 0.5;
+                leftArmServo.setPosition(leftArmServoPos);
+                rightArmServoPos = rightArmServoPos - 0.5;
+                rightArmServo.setPosition(rightArmServoPos);
             }
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
@@ -202,9 +208,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.update();
-            telemetry.addData("servo1",+servoPos);
-            telemetry.addData("servo2",+servoPos2);
-            telemetry.addData("servo3",+servoPos3);
-            telemetry.addData("servo4",+servoPos4);
+            telemetry.addData("Claw",+clawPos);
+            telemetry.addData("Wrist",+wristPos);
+            telemetry.addData("LeftArmServo",+leftArmServoPos);
+            telemetry.addData("RightArmServo",+rightArmServoPos);
         }
     }}
