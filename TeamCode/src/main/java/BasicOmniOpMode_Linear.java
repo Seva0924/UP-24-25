@@ -187,15 +187,15 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 wrist.setPosition(wristPos);
             }
             if (gamepad2.left_bumper) { //Arms Raise ____?
-                leftArmServoPos = leftArmServoPos + 0.5;
+                leftArmServoPos = leftArmServoPos + 0.485;
                 leftArmServo.setPosition(leftArmServoPos);
-                rightArmServoPos = rightArmServoPos + 0.5;
+                rightArmServoPos = rightArmServoPos + 0.485;
                 rightArmServo.setPosition(rightArmServoPos);
             }
             if (gamepad2.right_bumper) { //Arms Raise ____?
-                leftArmServoPos = leftArmServoPos - 0.5;
+                leftArmServoPos = leftArmServoPos - 0.05;//needs more
                 leftArmServo.setPosition(leftArmServoPos);
-                rightArmServoPos = rightArmServoPos - 0.5;
+                rightArmServoPos = rightArmServoPos - 0.05;
                 rightArmServo.setPosition(rightArmServoPos);
             }
             leftFrontDrive.setPower(leftFrontPower);
