@@ -30,6 +30,7 @@
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -77,6 +78,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private Servo wrist = null;
     private Servo leftArmServo = null;
     private Servo rightArmServo = null;
+
     @Override
     public void runOpMode() {
 
@@ -193,9 +195,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 rightArmServo.setPosition(rightArmServoPos);
             }
             if (gamepad2.right_bumper) { //Arms Raise ____?
-                leftArmServoPos = leftArmServoPos - 0.05;//needs more
+                leftArmServoPos = leftArmServoPos - 0.1;//needs more
                 leftArmServo.setPosition(leftArmServoPos);
-                rightArmServoPos = rightArmServoPos - 0.05;
+                rightArmServoPos = rightArmServoPos - 0.1;
                 rightArmServo.setPosition(rightArmServoPos);
             }
             leftFrontDrive.setPower(leftFrontPower);
