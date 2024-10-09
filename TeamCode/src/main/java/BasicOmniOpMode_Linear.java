@@ -78,6 +78,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private Servo wrist = null;
     private Servo leftArmServo = null;
     private Servo rightArmServo = null;
+    private DcMotor leftSlide = null;
+    private DcMotor rightSlide = null;
 
     @Override
     public void runOpMode() {
@@ -92,6 +94,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         wrist = hardwareMap.get(Servo.class, "wrist");
         leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
         rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
+        rightSlide = hardwareMap.get(DcMotor.class, "right_slide");
+        leftSlide = hardwareMap.get(DcMotor.class, "left_slide");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -112,6 +116,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -149,6 +155,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 rightBackPower  /= max;
             }
 
+
+
             // This is test code:
             //
             // Uncomment the following code to test your motor directions.
@@ -172,19 +180,19 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double leftArmServoPos = 0.5;
             double rightArmServoPos = 0.5;
 
-            if (gamepad2.a){ //Open Claw
+            if (gamepad2.x){ //Open Claw
                 clawPos=clawPos+0.05;
                 claw.setPosition(clawPos);
             }
-            if (gamepad2.b){ //Close Claw
+            if (gamepad2.a){ //Close Claw
                 clawPos=clawPos-0.05;
                 claw.setPosition(clawPos);
             }
-            if (gamepad2.x){ // Wrist Moves ____?
+            if (gamepad2.right_stick_x == -1){ // Wrist Moves ____?
                 wristPos=wristPos+0.05;
                 wrist.setPosition(wristPos);
             }
-            if (gamepad2.y){ // Wrist Moves ___?
+            if (gamepad2.right_stick_x == 1){ // Wrist Moves ___?
                 wristPos=wristPos-0.05;
                 wrist.setPosition(wristPos);
             }
@@ -200,6 +208,19 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 rightArmServoPos = rightArmServoPos - 0.1;
                 rightArmServo.setPosition(rightArmServoPos);
             }
+            // horizontal slides to the bumpers
+
+            if(gamepad1.left_bumper){
+                leftSlide.setPower(.95);
+                rightSlide.setPower(.95);
+            } else if (gamepad1.right_bumper) {
+                leftSlide.setPower(-.95);
+                rightSlide.setPower(-.95);
+            } else{
+                leftSlide.setPower(0);
+                rightSlide.setPower(0);
+            }
+
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
@@ -214,5 +235,6 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("Wrist",+wristPos);
             telemetry.addData("LeftArmServo",+leftArmServoPos);
             telemetry.addData("RightArmServo",+rightArmServoPos);
+
         }
     }}
