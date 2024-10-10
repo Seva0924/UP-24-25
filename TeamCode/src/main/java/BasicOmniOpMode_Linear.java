@@ -80,14 +80,17 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private Servo rightArmServo = null;
     private DcMotor leftSlide = null;
     private DcMotor rightSlide = null;
+    private DcMotor vertSlideRight = null;
+    private DcMotor vertSlideLeft = null;
+    private Servo funnel = null;
 
     @Override
     public void runOpMode() {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         claw = hardwareMap.get(Servo.class, "claw");
@@ -96,6 +99,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
         rightSlide = hardwareMap.get(DcMotor.class, "right_slide");
         leftSlide = hardwareMap.get(DcMotor.class, "left_slide");
+        vertSlideRight = hardwareMap.get(DcMotor.class, "vert_slide_right");
+        vertSlideLeft = hardwareMap.get(DcMotor.class, "vert_slide_left");
+        funnel = hardwareMap.get(Servo.class, "funnel");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -131,16 +137,16 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral =  gamepad1.left_stick_x;
-            double yaw     =  gamepad1.right_stick_x;
+            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral + yaw;
+            double leftFrontPower = axial + lateral + yaw;
             double rightFrontPower = axial + lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial - lateral - yaw;
+            double leftBackPower = axial - lateral + yaw;
+            double rightBackPower = axial - lateral - yaw;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -149,12 +155,11 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
 
             if (max > 1.0) {
-                leftFrontPower  /= max;
+                leftFrontPower /= max;
                 rightFrontPower /= max;
-                leftBackPower   /= max;
-                rightBackPower  /= max;
+                leftBackPower /= max;
+                rightBackPower /= max;
             }
-
 
 
             // This is test code:
@@ -179,47 +184,79 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             double wristPos = 0.5;
             double leftArmServoPos = 0.5;
             double rightArmServoPos = 0.5;
+            double funnelPos = 0.5;
 
-            if (gamepad2.x){ //Open Claw
-                clawPos=clawPos+0.05;
+            if (gamepad2.x) { //Open Claw
+                clawPos = clawPos + 0.05;
                 claw.setPosition(clawPos);
             }
-            if (gamepad2.a){ //Close Claw
-                clawPos=clawPos-0.05;
+            if (gamepad2.y) { //Close Claw
+                clawPos = clawPos - 0.05;
                 claw.setPosition(clawPos);
             }
-            if (gamepad2.right_stick_x == -1){ // Wrist Moves ____?
-                wristPos=wristPos+0.05;
+            if (gamepad2.right_stick_x >= 0) { // when joystick pushed down Wrist Moves ____?
+                wristPos = wristPos + 0.05;
                 wrist.setPosition(wristPos);
             }
-            if (gamepad2.right_stick_x == 1){ // Wrist Moves ___?
-                wristPos=wristPos-0.05;
+            if (gamepad2.right_stick_x <= 0) { //when joystick pushed up Wrist Moves ___?
+                wristPos = wristPos - 0.05;
                 wrist.setPosition(wristPos);
             }
-            if (gamepad2.left_bumper) { //Arms Raise ____?
+            if (gamepad2.dpad_left) {// Open Funnel
+                funnelPos = funnelPos + 0.1;
+                funnel.setPosition(funnelPos);
+            }
+            if (gamepad2.dpad_right) {// Close Funnel
+                funnelPos = funnelPos - 0.1;
+                funnel.setPosition(funnelPos);
+            }
+//            if (gamepad2.left_bumper) { //Arms Raise ____?
+//                leftArmServoPos = leftArmServoPos + 0.485;
+//                leftArmServo.setPosition(leftArmServoPos);
+//                rightArmServoPos = rightArmServoPos + 0.485;
+//                rightArmServo.setPosition(rightArmServoPos);
+//            }
+//            if (gamepad2.right_bumper) { //Arms Raise ____?
+//                leftArmServoPos = leftArmServoPos - 0.1;//needs more
+//                leftArmServo.setPosition(leftArmServoPos);
+//                rightArmServoPos = rightArmServoPos - 0.1;
+//                rightArmServo.setPosition(rightArmServoPos);
+            //       }
+            // horizontal slides to the bumpers
+
+            if (gamepad2.a) { //slides go in arm goes up, claw opens
+                leftSlide.setPower(-.95);//slides in
                 leftArmServoPos = leftArmServoPos + 0.485;
                 leftArmServo.setPosition(leftArmServoPos);
                 rightArmServoPos = rightArmServoPos + 0.485;
-                rightArmServo.setPosition(rightArmServoPos);
-            }
-            if (gamepad2.right_bumper) { //Arms Raise ____?
-                leftArmServoPos = leftArmServoPos - 0.1;//needs more
-                leftArmServo.setPosition(leftArmServoPos);
-                rightArmServoPos = rightArmServoPos - 0.1;
-                rightArmServo.setPosition(rightArmServoPos);
-            }
-            // horizontal slides to the bumpers
+                rightArmServo.setPosition(rightArmServoPos);//arms raise
+                clawPos = clawPos + 0.05;
+                claw.setPosition(clawPos);//claw opens
 
-            if(gamepad1.left_bumper){
+            }
+
+            if (gamepad2.left_bumper) {
                 leftSlide.setPower(.95);
                 rightSlide.setPower(.95);
             } else if (gamepad1.right_bumper) {
                 leftSlide.setPower(-.95);
                 rightSlide.setPower(-.95);
-            } else{
+            } else {
                 leftSlide.setPower(0);
                 rightSlide.setPower(0);
             }
+
+            if (gamepad2.left_trigger >= .95){
+                vertSlideRight.setPower(.95);
+                vertSlideLeft.setPower(.95);
+            } else if (gamepad2.right_trigger <=.95) {
+                vertSlideRight.setPower(-.95);
+                vertSlideLeft.setPower(-.95);
+            } else{
+                vertSlideRight.setPower(0);
+                vertSlideLeft.setPower(0);
+            }
+
 
             leftFrontDrive.setPower(leftFrontPower);
             rightFrontDrive.setPower(rightFrontPower);
@@ -231,10 +268,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.update();
-            telemetry.addData("Claw",+clawPos);
-            telemetry.addData("Wrist",+wristPos);
-            telemetry.addData("LeftArmServo",+leftArmServoPos);
-            telemetry.addData("RightArmServo",+rightArmServoPos);
+            telemetry.addData("Claw", +clawPos);
+            telemetry.addData("Wrist", +wristPos);
+            telemetry.addData("LeftArmServo", +leftArmServoPos);
+            telemetry.addData("RightArmServo", +rightArmServoPos);
 
         }
-    }}
+    }
+}
+
