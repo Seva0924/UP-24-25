@@ -77,8 +77,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
     private Servo leftArmServo = null;
     private Servo rightArmServo = null;
     private DcMotor horizontalSlide = null;
-//    private DcMotor vertSlideRight = null;
-//    private DcMotor vertSlideLeft = null;
+    private DcMotor vertSlide = null;
 //    private Servo funnel = null;
 
     @Override
@@ -95,8 +94,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
         leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
         rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
         horizontalSlide = hardwareMap.get(DcMotor.class, "horizontalSlide");
-//        vertSlideRight = hardwareMap.get(DcMotor.class, "vert_slide_right");
-//        vertSlideLeft = hardwareMap.get(DcMotor.class, "vert_slide_left");
+        vertSlide = hardwareMap.get(DcMotor.class, "vertSlide");
 //        funnel = hardwareMap.get(Servo.class, "funnel");
 
         // ########################################################################################
@@ -119,7 +117,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 //        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         horizontalSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        vertSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -176,25 +174,25 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 
             // Send calculated power to wheels\
             double clawPos = 0.5;
-            double wristPos = 0.5;
+            double wristPos = 0.7;
             double leftArmServoPos = 0.5;
             double rightArmServoPos = 0.5;
 //            double funnelPos = 0.5;
 
             if (gamepad2.x) { //Open Claw
-                clawPos = clawPos + 0.05;
+                clawPos = clawPos + 0.2;
                 claw.setPosition(clawPos);
             }
             if (gamepad2.y) { //Close Claw
-                clawPos = clawPos - 0.05;
+                clawPos = clawPos - 0.2;
                 claw.setPosition(clawPos);
             }
             if (gamepad2.right_stick_x > 0) { // when joystick pushed down Wrist Moves ____?
-                wristPos = wristPos + 0.05;
+                wristPos = wristPos + 0.35;
                 wrist.setPosition(wristPos);
             }
             if (gamepad2.right_stick_x < 0) { //when joystick pushed up Wrist Moves ___?
-                wristPos = wristPos - 0.05;
+                wristPos = wristPos - 0.3;
                 wrist.setPosition(wristPos);
             }
 //            if (gamepad2.dpad_left) {// Open Funnel
@@ -212,9 +210,9 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
                 rightArmServo.setPosition(rightArmServoPos);
             }
             if (gamepad2.right_bumper) { //Arms Raise ____?
-                leftArmServoPos = leftArmServoPos - 0.14;//position= 0.36
+                leftArmServoPos = leftArmServoPos - 0.13;//position= 0.37
                 leftArmServo.setPosition(leftArmServoPos);
-                rightArmServoPos = rightArmServoPos + 0.14;//position= 0.66
+                rightArmServoPos = rightArmServoPos + 0.13;//position= 0.63
                 rightArmServo.setPosition(rightArmServoPos);
                    }
             // horizontal slides to the bumpers
@@ -230,24 +228,25 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 //
 //            }
 //
-            if (gamepad2.left_trigger >=.95) {
-                horizontalSlide.setPower(.95);
-            } else if (gamepad1.right_trigger >0 && gamepad1.right_trigger <.95) {
+            if (gamepad2.left_trigger >=.95) { // Slides Move Out
                 horizontalSlide.setPower(-.95);
+            } else if (gamepad2.right_trigger >.95) { //Slides Retract
+                horizontalSlide.setPower(.95);
             } else {
                 horizontalSlide.setPower(0);
             }
-//
-//            if (gamepad2.left_trigger >= .95){
-//                vertSlideRight.setPower(.95);
-//                vertSlideLeft.setPower(.95);
-//            } else if (gamepad2.right_trigger <=.95) {
-//                vertSlideRight.setPower(-.95);
-//                vertSlideLeft.setPower(-.95);
-//            } else{
-//                vertSlideRight.setPower(0);
-//                vertSlideLeft.setPower(0);
-//            }
+
+            if (gamepad2.a) {
+                vertSlide.setPower(-.95);
+            } else{
+                vertSlide.setPower(0);
+            }
+
+           if (gamepad2.b) {
+                vertSlide.setPower(.95);
+            } else{
+                vertSlide.setPower(0);
+            }
 //
 //
 //            leftFrontDrive.setPower(leftFrontPower);
@@ -263,7 +262,8 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
             telemetry.addData("Wrist", wristPos);
             telemetry.addData("LeftArmServo", leftArmServoPos);
             telemetry.addData("RightArmServo", rightArmServoPos);
-            telemetry.addData("HorizontalSlide", horizontalSlide);
+            telemetry.addData("HorizontalSlide", horizontalSlide.getPower());
+            telemetry.addData("vertSlide", vertSlide.getPower());
             telemetry.update();
 
         }
