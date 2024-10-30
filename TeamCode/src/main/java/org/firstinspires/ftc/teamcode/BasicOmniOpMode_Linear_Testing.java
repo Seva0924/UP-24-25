@@ -78,7 +78,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
     private Servo rightArmServo = null;
     private DcMotor horizontalSlide = null;
     private DcMotor vertSlide = null;
-//    private Servo funnel = null;
+    private Servo funnel = null;
 
     @Override
     public void runOpMode() {
@@ -95,7 +95,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
         rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
         horizontalSlide = hardwareMap.get(DcMotor.class, "horizontalSlide");
         vertSlide = hardwareMap.get(DcMotor.class, "vertSlide");
-//        funnel = hardwareMap.get(Servo.class, "funnel");
+        funnel = hardwareMap.get(Servo.class, "funnel");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -177,7 +177,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
             double wristPos = 0.7;
             double leftArmServoPos = 0.5;
             double rightArmServoPos = 0.5;
-//            double funnelPos = 0.5;
+            double funnelPos = 0.5;
 
             if (gamepad2.x) { //Open Claw
                 clawPos = clawPos + 0.2;
@@ -188,21 +188,21 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
                 claw.setPosition(clawPos);
             }
             if (gamepad2.right_stick_x > 0) { // when joystick pushed down Wrist Moves ____?
-                wristPos = wristPos + 0.35;
+                wristPos = wristPos + 0.3;
                 wrist.setPosition(wristPos);
             }
             if (gamepad2.right_stick_x < 0) { //when joystick pushed up Wrist Moves ___?
-                wristPos = wristPos - 0.3;
+                wristPos = wristPos - 0.38;
                 wrist.setPosition(wristPos);
             }
-//            if (gamepad2.dpad_left) {// Open Funnel
-//                funnelPos = funnelPos + 0.1;
-//                funnel.setPosition(funnelPos);
-//            }
-//            if (gamepad2.dpad_right) {// Close Funnel
-//                funnelPos = funnelPos - 0.1;
-//                funnel.setPosition(funnelPos);
-//            }
+            if (gamepad2.dpad_left) {// Open Funnel
+                funnelPos = funnelPos + 0.3;
+                funnel.setPosition(funnelPos);
+            }
+            if (gamepad2.dpad_right) {// Close Funnel
+                funnelPos = funnelPos - 0.1;
+                funnel.setPosition(funnelPos);
+            }
             if (gamepad2.left_bumper) { //Arms Raise ____?
                 leftArmServoPos = leftArmServoPos + 0.34;// position= 0.84
                 leftArmServo.setPosition(leftArmServoPos);
@@ -262,6 +262,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
             telemetry.addData("Wrist", wristPos);
             telemetry.addData("LeftArmServo", leftArmServoPos);
             telemetry.addData("RightArmServo", rightArmServoPos);
+            telemetry.addData("funnel", funnelPos);
             telemetry.addData("HorizontalSlide", horizontalSlide.getPower());
             telemetry.addData("vertSlide", vertSlide.getPower());
             telemetry.update();
