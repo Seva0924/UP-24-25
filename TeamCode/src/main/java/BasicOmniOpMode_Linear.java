@@ -144,9 +144,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
             double leftFrontPower = axial + lateral + yaw;
-            double rightFrontPower = axial + lateral - yaw;
+            double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
-            double rightBackPower = axial - lateral - yaw;
+            double rightBackPower = axial + lateral - yaw;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -160,6 +160,11 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
                 leftBackPower /= max;
                 rightBackPower /= max;
             }
+
+            leftFrontDrive.setPower(leftFrontPower);
+            rightFrontDrive.setPower(rightFrontPower);
+            leftBackDrive.setPower(leftBackPower);
+            rightBackDrive.setPower(rightBackPower);
 
 
             // This is test code:
@@ -258,10 +263,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
 
 
-            leftFrontDrive.setPower(leftFrontPower);
-            rightFrontDrive.setPower(rightFrontPower);
-            leftBackDrive.setPower(leftBackPower);
-            rightBackDrive.setPower(rightBackPower);
+
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());

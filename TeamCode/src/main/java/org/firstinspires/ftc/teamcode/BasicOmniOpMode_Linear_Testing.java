@@ -143,9 +143,9 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 //            // Combine the joystick requests for each axis-motion to determine each wheel's power.
 //            // Set up a variable for each drive wheel to save the power level for telemetry.
             double leftFrontPower = axial + lateral + yaw;
-            double rightFrontPower = axial + lateral - yaw;
+            double rightFrontPower = axial - lateral - yaw;
             double leftBackPower = axial - lateral + yaw;
-            double rightBackPower = axial - lateral - yaw;
+            double rightBackPower = axial + lateral - yaw;
 
             // Normalize the values so no wheel power exceeds 100%
 //            // This ensures that the robot maintains the desired motion.
@@ -159,6 +159,11 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
                 leftBackPower /= max;
                 rightBackPower /= max;
             }
+
+            leftFrontDrive.setPower(leftFrontPower);
+            rightFrontDrive.setPower(rightFrontPower);
+            leftBackDrive.setPower(leftBackPower);
+            rightBackDrive.setPower(rightBackPower);
 
 
             // This is test code:
@@ -280,36 +285,33 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
                     }
 //SLOW MO
                     if (gamepad1.dpad_left) {
-                        leftFrontDrive.setPower(0.1);
-                        rightFrontDrive.setPower(-0.1);
-                        leftBackDrive.setPower(0.1);
-                        rightBackDrive.setPower(-0.1);
+                        leftFrontDrive.setPower(0.65);
+                        rightFrontDrive.setPower(-0.65);
+                        leftBackDrive.setPower(0.65);
+                        rightBackDrive.setPower(-0.65);
                     }
                     if (gamepad1.dpad_right) {
-                        leftFrontDrive.setPower(-0.1);
-                        rightFrontDrive.setPower(0.1);
-                        leftBackDrive.setPower(-0.1);
-                        rightBackDrive.setPower(0.1);
+                        leftFrontDrive.setPower(-0.65);
+                        rightFrontDrive.setPower(0.65);
+                        leftBackDrive.setPower(-0.65);
+                        rightBackDrive.setPower(0.65);
                     }
 
                     if (gamepad1.dpad_down) {
-                        leftFrontDrive.setPower(-0.1);
-                        rightFrontDrive.setPower(-0.1);
-                        leftBackDrive.setPower(-0.1);
-                        rightBackDrive.setPower(-0.1);
+                        leftFrontDrive.setPower(-0.65);
+                        rightFrontDrive.setPower(-0.65);
+                        leftBackDrive.setPower(-0.65);
+                        rightBackDrive.setPower(-0.65);
                     }
 
                     if (gamepad1.dpad_up) {
-                        leftFrontDrive.setPower(0.1);
-                        rightFrontDrive.setPower(0.1);
-                        leftBackDrive.setPower(0.1);
-                        rightBackDrive.setPower(0.1);
+                        leftFrontDrive.setPower(0.65);
+                        rightFrontDrive.setPower(0.65);
+                        leftBackDrive.setPower(0.65);
+                        rightBackDrive.setPower(0.65);
                     }
 //WHEELS
-                    leftFrontDrive.setPower(leftFrontPower);
-                    rightFrontDrive.setPower(rightFrontPower);
-                    leftBackDrive.setPower(leftBackPower);
-                    rightBackDrive.setPower(rightBackPower);
+
 
                     // Show the elapsed game time and wheel power.
                     telemetry.addData("Status", "Run Time: " + runtime.toString());
