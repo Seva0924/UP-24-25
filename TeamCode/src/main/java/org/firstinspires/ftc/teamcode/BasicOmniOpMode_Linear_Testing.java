@@ -211,41 +211,41 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
             } else {
                 pullUp.setPower(0);
 
-            if (gamepad2.left_stick_y > 0) { // when joystick pushed right pull up
-                extension.setPower(-.95);
-            }
-            if (gamepad2.right_stick_y < 0) { //when joystick pushed up Wrist Moves ___?
-                extension.setPower(.95);
-            } else {
-            extension.setPower(0);
+                if (gamepad2.left_stick_y > 0) { // when joystick pushed right pull up
+                    extension.setPower(-.95);
+                }
+                if (gamepad2.right_stick_y < 0) { //when joystick pushed up Wrist Moves ___?
+                    extension.setPower(.95);
+                } else {
+                    extension.setPower(0);
 
 //FUNNEL CODE
-            if (gamepad2.dpad_left) {// Open Funnel
-                funnelPos = funnelPos + 0.3;
-                funnel.setPosition(funnelPos);
-            }
-            if (gamepad2.dpad_right) {// Close Funnel
-                funnelPos = funnelPos - 0.1;
-                funnel.setPosition(funnelPos);
-            }
+                    if (gamepad2.dpad_left) {// Open Funnel
+                        funnelPos = funnelPos + 0.3;
+                        funnel.setPosition(funnelPos);
+                    }
+                    if (gamepad2.dpad_right) {// Close Funnel
+                        funnelPos = funnelPos - 0.1;
+                        funnel.setPosition(funnelPos);
+                    }
 
 //ARMS CODE
-            if (gamepad2.left_bumper) { //Arms Raise ____?
-                leftArmServoPos = leftArmServoPos + 0.34;// position= 0.84
-                leftArmServo.setPosition(leftArmServoPos);
-                rightArmServoPos = rightArmServoPos - 0.34;// position= 0.16
-                rightArmServo.setPosition(rightArmServoPos);
-            }
-            if (gamepad2.right_bumper) { //Arms Raise ____?
-                leftArmServoPos = leftArmServoPos - 0.13;//position= 0.37
-                leftArmServo.setPosition(leftArmServoPos);
-                rightArmServoPos = rightArmServoPos + 0.13;//position= 0.63
-                rightArmServo.setPosition(rightArmServoPos);
-                   }
+                    if (gamepad2.left_bumper) { //Arms Raise ____?
+                        leftArmServoPos = leftArmServoPos + 0.34;// position= 0.84
+                        leftArmServo.setPosition(leftArmServoPos);
+                        rightArmServoPos = rightArmServoPos - 0.34;// position= 0.16
+                        rightArmServo.setPosition(rightArmServoPos);
+                    }
+                    if (gamepad2.right_bumper) { //Arms Raise ____?
+                        leftArmServoPos = leftArmServoPos - 0.13;//position= 0.37
+                        leftArmServo.setPosition(leftArmServoPos);
+                        rightArmServoPos = rightArmServoPos + 0.13;//position= 0.63
+                        rightArmServo.setPosition(rightArmServoPos);
+                    }
 
 
 //MULTI-HYPO CODE
-            // horizontal slides to the bumpers
+                    // horizontal slides to the bumpers
 
 //            if (gamepad2.a) { //slides go in arm goes up, claw opens
 //                horizontalSlide.setPower(-.95);//slides in
@@ -258,73 +258,74 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 //
 //            }
 //
- //SLIDES CODE
-            if (gamepad2.left_trigger >=.95) { // Slides Move Out
-                horizontalSlide.setPower(-.95);
-            } else if (gamepad2.right_trigger >.95) { //Slides Retract
-                horizontalSlide.setPower(.95);
-            } else {
-                horizontalSlide.setPower(0);
-            }
+                    //SLIDES CODE
+                    if (gamepad2.left_trigger >= .95) { // Slides Move Out
+                        horizontalSlide.setPower(-.95);
+                    } else if (gamepad2.right_trigger > .95) { //Slides Retract
+                        horizontalSlide.setPower(.95);
+                    } else {
+                        horizontalSlide.setPower(0);
+                    }
 
 
-            if (gamepad2.b) {
-                vertSlide.setPower(-.95);// slides out
-            } else{
-                vertSlide.setPower(0);
-            }
-           if (gamepad2.a) {
-                vertSlide.setPower(.95);//slides in
-            } else{
-                vertSlide.setPower(0);
-            }
+                    if (gamepad2.b) {
+                        vertSlide.setPower(-.95);// slides out
+                    } else {
+                        vertSlide.setPower(0);
+                    }
+                    if (gamepad2.a) {
+                        vertSlide.setPower(.95);//slides in
+                    } else {
+                        vertSlide.setPower(0);
+                    }
 //SLOW MO
-            if (gamepad1.dpad_left) {
-                leftFrontDrive.setPower(0.1);
-                rightFrontDrive.setPower(-0.1);
-                leftBackDrive.setPower(0.1);
-                rightBackDrive.setPower(-0.1);
-            }
-            if (gamepad1.dpad_right) {
-                leftFrontDrive.setPower(-0.1);
-                rightFrontDrive.setPower(0.1);
-                leftBackDrive.setPower(-0.1);
-                rightBackDrive.setPower(0.1);
-            }
+                    if (gamepad1.dpad_left) {
+                        leftFrontDrive.setPower(0.1);
+                        rightFrontDrive.setPower(-0.1);
+                        leftBackDrive.setPower(0.1);
+                        rightBackDrive.setPower(-0.1);
+                    }
+                    if (gamepad1.dpad_right) {
+                        leftFrontDrive.setPower(-0.1);
+                        rightFrontDrive.setPower(0.1);
+                        leftBackDrive.setPower(-0.1);
+                        rightBackDrive.setPower(0.1);
+                    }
 
-            if (gamepad1.dpad_down) {
-                leftFrontDrive.setPower(-0.1);
-                rightFrontDrive.setPower(-0.1);
-                leftBackDrive.setPower(-0.1);
-                rightBackDrive.setPower(-0.1);
-            }
+                    if (gamepad1.dpad_down) {
+                        leftFrontDrive.setPower(-0.1);
+                        rightFrontDrive.setPower(-0.1);
+                        leftBackDrive.setPower(-0.1);
+                        rightBackDrive.setPower(-0.1);
+                    }
 
-            if (gamepad1.dpad_up) {
-                leftFrontDrive.setPower(0.1);
-                rightFrontDrive.setPower(0.1);
-                leftBackDrive.setPower(0.1);
-                rightBackDrive.setPower(0.1);
-            }
+                    if (gamepad1.dpad_up) {
+                        leftFrontDrive.setPower(0.1);
+                        rightFrontDrive.setPower(0.1);
+                        leftBackDrive.setPower(0.1);
+                        rightBackDrive.setPower(0.1);
+                    }
 //WHEELS
-            leftFrontDrive.setPower(leftFrontPower);
-            rightFrontDrive.setPower(rightFrontPower);
-            leftBackDrive.setPower(leftBackPower);
-            rightBackDrive.setPower(rightBackPower);
-\
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.addData("Claw", clawPos);
-            telemetry.addData("Wrist", wristPos);
-            telemetry.addData("LeftArmServo", leftArmServoPos);
-            telemetry.addData("RightArmServo", rightArmServoPos);
-            telemetry.addData("funnel", funnelPos);
-            telemetry.addData("HorizontalSlide", horizontalSlide.getPower());
-            telemetry.addData("vertSlide", vertSlide.getPower());
-            telemetry.update();
+                    leftFrontDrive.setPower(leftFrontPower);
+                    rightFrontDrive.setPower(rightFrontPower);
+                    leftBackDrive.setPower(leftBackPower);
+                    rightBackDrive.setPower(rightBackPower);
 
+                    // Show the elapsed game time and wheel power.
+                    telemetry.addData("Status", "Run Time: " + runtime.toString());
+                    telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+                    telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+                    telemetry.addData("Claw", clawPos);
+                    telemetry.addData("Wrist", wristPos);
+                    telemetry.addData("LeftArmServo", leftArmServoPos);
+                    telemetry.addData("RightArmServo", rightArmServoPos);
+                    telemetry.addData("funnel", funnelPos);
+                    telemetry.addData("HorizontalSlide", horizontalSlide.getPower());
+                    telemetry.addData("vertSlide", vertSlide.getPower());
+                    telemetry.update();
+
+                }
+            }
         }
-    }
-}
 
+    }}

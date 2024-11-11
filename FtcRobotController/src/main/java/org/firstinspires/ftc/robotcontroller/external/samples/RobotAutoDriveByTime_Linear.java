@@ -57,7 +57,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Robot: Auto Drive By Time", group="Robot")
-@Disabled
+//@Disabled
 public class RobotAutoDriveByTime_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -65,8 +65,10 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
+    private Servo leftArmServo = null;
+    private Servo rightArmServo = null;
     private DcMotor vertSlide = null;
-    private Servo funnel = null;
+//    private Servo funnel = null;
 
     private ElapsedTime     runtime = new ElapsedTime();
 
@@ -74,7 +76,9 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
     static final double     FORWARD_SPEED = 0.6;
     static final double     TURN_SPEED    = 0.5;
     static final double     SLIDE_SPEED    = 0.95;
-    double     funnelPos = 0.5;
+//    double     funnelPos = 0.5;
+    double leftArmServoPos = 0.5;
+    double rightArmServoPos = 0.5;
     @Override
     public void runOpMode() {
 
@@ -84,7 +88,9 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         vertSlide = hardwareMap.get(DcMotor.class, "vertSlide");
-        funnel = hardwareMap.get(Servo.class, "funnel");
+//        funnel = hardwareMap.get(Servo.class, "funnel");
+        leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
+        rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -100,7 +106,7 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        vertSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        vertSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
@@ -111,16 +117,16 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
 
         // Step through each leg of the path, ensuring that the OpMode has not been stopped along the way.
 
-//         Step 1:  Drive forward for 3 seconds
-        leftFrontDrive.setPower(FORWARD_SPEED);
-        leftBackDrive.setPower(FORWARD_SPEED);
-        rightBackDrive.setPower(FORWARD_SPEED);
-        rightFrontDrive.setPower(FORWARD_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 3.0)) {
-            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
-        }
+////         Step 1:  Drive forward for 3 seconds
+//        leftFrontDrive.setPower(FORWARD_SPEED);
+//        leftBackDrive.setPower(FORWARD_SPEED);
+//        rightBackDrive.setPower(FORWARD_SPEED);
+//        rightFrontDrive.setPower(FORWARD_SPEED);
+//        runtime.reset();
+//        while (opModeIsActive() && (runtime.seconds() < 2.8)) {
+//            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
+//            telemetry.update();
+//        }
 //
 //        // Step 2:  Spin right for 1.3 seconds
 //        leftFrontDrive.setPower(TURN_SPEED);
@@ -134,21 +140,32 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
 //        }
 //
 ////        // Step 3:  Drive Backward for 2 Seconds
-//        leftFrontDrive.setPower(-TURN_SPEED);
-//        leftBackDrive.setPower(-TURN_SPEED);
-//        rightFrontDrive.setPower(-TURN_SPEED);
-//        rightBackDrive.setPower(-TURN_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-//            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
+        leftFrontDrive.setPower(-TURN_SPEED);
+        leftBackDrive.setPower(-TURN_SPEED);
+        rightFrontDrive.setPower(-TURN_SPEED);
+        rightBackDrive.setPower(-TURN_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+        }
+
+        leftArmServoPos = leftArmServoPos - 0.13;//position= 0.37
+        leftArmServo.setPosition(leftArmServoPos);
+        rightArmServoPos = rightArmServoPos + 0.13;//position= 0.63
+        rightArmServo.setPosition(rightArmServoPos);
+
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+
+
+
 //// vert slides up
-//        vertSlide.setPower(SLIDE_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-//            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.update();
+        vertSlide.setPower(SLIDE_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
 //        }
 //
 //        vertSlide.setPower(SLIDE_SPEED);
@@ -166,8 +183,9 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         leftBackDrive.setPower(0);
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
+        vertSlide.setPower(0);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
     }
-}
+}}
