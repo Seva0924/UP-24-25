@@ -70,15 +70,16 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
     private DcMotor vertSlide = null;
 //    private Servo funnel = null;
 
-    private ElapsedTime     runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
 
-    static final double     FORWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.5;
-    static final double     SLIDE_SPEED    = 0.95;
-//    double     funnelPos = 0.5;
+    static final double FORWARD_SPEED = 0.6;
+    static final double TURN_SPEED = 0.5;
+    static final double SLIDE_SPEED = 0.95;
+    //    double     funnelPos = 0.5;
     double leftArmServoPos = 0.5;
     double rightArmServoPos = 0.5;
+
     @Override
     public void runOpMode() {
 
@@ -140,32 +141,50 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
 //        }
 //
 ////        // Step 3:  Drive Backward for 2 Seconds
-        leftFrontDrive.setPower(-TURN_SPEED);
-        leftBackDrive.setPower(-TURN_SPEED);
-        rightFrontDrive.setPower(-TURN_SPEED);
-        rightBackDrive.setPower(-TURN_SPEED);
+//        leftFrontDrive.setPower(-TURN_SPEED);
+//        leftBackDrive.setPower(-TURN_SPEED);
+//        rightFrontDrive.setPower(-TURN_SPEED);
+//        rightBackDrive.setPower(-TURN_SPEED);
+//        telemetry.addData("Backwards Successful", getRuntime());
+//        telemetry.update();
+//        runtime.reset();
+//        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+//            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+//            telemetry.update();
+//        }
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+            leftFrontDrive.setPower(-TURN_SPEED);
+            leftBackDrive.setPower(-TURN_SPEED);
+            rightFrontDrive.setPower(-TURN_SPEED);
+            rightBackDrive.setPower(-TURN_SPEED);
+            telemetry.addData("Backwards Successful", getRuntime());
+            telemetry.update();
+            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+            telemetry.update();
+
+            leftArmServoPos = leftArmServoPos - 0.13;//position= 0.37
+            leftArmServo.setPosition(leftArmServoPos);
+            rightArmServoPos = rightArmServoPos + 0.13;//position= 0.63
+            rightArmServo.setPosition(rightArmServoPos);
+
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
 
-        leftArmServoPos = leftArmServoPos - 0.13;//position= 0.37
-        leftArmServo.setPosition(leftArmServoPos);
-        rightArmServoPos = rightArmServoPos + 0.13;//position= 0.63
-        rightArmServo.setPosition(rightArmServoPos);
-
-            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
 
 
 
 //// vert slides up
-        vertSlide.setPower(SLIDE_SPEED);
-        runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-            telemetry.update();
+
+//        runtime.reset();
+//        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+//            vertSlide.setPower(SLIDE_SPEED);
+//            telemetry.addData("Vertical Slides Successful", getRuntime());
+//            telemetry.update();
+//            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
+//            telemetry.update();
 //        }
 //
 //        vertSlide.setPower(SLIDE_SPEED);
@@ -188,4 +207,5 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         telemetry.update();
         sleep(1000);
     }
-}}
+}
+
