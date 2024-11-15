@@ -235,16 +235,16 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
                     }
 
 //ARMS CODE
-                    if (gamepad2.left_bumper) { //Arms Raise ____?
-                        leftArmServoPos = leftArmServoPos + 0.34;// position= 0.84
+                    if (gamepad2.left_bumper) { //Arms Raise
+                        leftArmServoPos = leftArmServoPos + 0.365;// position= 0.86; original (add .34 -- pos .84)
                         leftArmServo.setPosition(leftArmServoPos);
-                        rightArmServoPos = rightArmServoPos - 0.34;// position= 0.16
+                        rightArmServoPos = rightArmServoPos - 0.31;// position= 0.19; original (sub .34 -- pos .16)
                         rightArmServo.setPosition(rightArmServoPos);
                     }
-                    if (gamepad2.right_bumper) { //Arms Raise ____?
-                        leftArmServoPos = leftArmServoPos - 0.13;//position= 0.37
+                    if (gamepad2.right_bumper) { //Arms Lower
+                        leftArmServoPos = leftArmServoPos - 0.125;//position= 0.35; original (sub .13 -- pos .37)
                         leftArmServo.setPosition(leftArmServoPos);
-                        rightArmServoPos = rightArmServoPos + 0.13;//position= 0.63
+                        rightArmServoPos = rightArmServoPos + 0.175;//position= 0.70; original (add .13 -- pos .63)
                         rightArmServo.setPosition(rightArmServoPos);
                     }
 
@@ -274,14 +274,18 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 
 
                     if (gamepad2.b) {
-                        vertSlide.setPower(-.95);// slides out
-                    } else {
-                        vertSlide.setPower(0);
+                        vertSlide.setPower(-.95);// slides down
+                    }// else {
+                     //   vertSlide.setPower(0);
+                   // }
+                    else if (gamepad2.a) {
+                        vertSlide.setPower(.95);//slides up
                     }
-                    if (gamepad2.a) {
-                        vertSlide.setPower(.95);//slides in
-                    } else {
-                        vertSlide.setPower(0);
+                    else if (gamepad2.dpad_up){
+                        vertSlide.setPower(0.1);
+                    }
+                    else{
+                        vertSlide.setPower(0.0);
                     }
 //SLOW MO
                     if (gamepad1.dpad_left) {
