@@ -242,9 +242,9 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
                         rightArmServo.setPosition(rightArmServoPos);
                     }
                     if (gamepad2.right_bumper) { //Arms Lower
-                        leftArmServoPos = leftArmServoPos - 0.125;//position= 0.35; original (sub .13 -- pos .37)
+                        leftArmServoPos = leftArmServoPos - 0.135;//position= 0.35; original (sub .13 -- pos .37)
                         leftArmServo.setPosition(leftArmServoPos);
-                        rightArmServoPos = rightArmServoPos + 0.175;//position= 0.70; original (add .13 -- pos .63)
+                        rightArmServoPos = rightArmServoPos + 0.19;//position= 0.70; original (add .13 -- pos .63)
                         rightArmServo.setPosition(rightArmServoPos);
                     }
 

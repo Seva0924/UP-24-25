@@ -68,6 +68,7 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
     private Servo leftArmServo = null;
     private Servo rightArmServo = null;
     private DcMotor vertSlide = null;
+    private Servo funnel = null;
 //    private Servo funnel = null;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -76,9 +77,12 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
     static final double FORWARD_SPEED = 0.6;
     static final double TURN_SPEED = 0.5;
     static final double SLIDE_SPEED = 0.95;
+    static final double SLOW_SPEED = 0.09;
     //    double     funnelPos = 0.5;
     double leftArmServoPos = 0.5;
     double rightArmServoPos = 0.5;
+    double funnelPos = 0.5;
+
 
     @Override
     public void runOpMode() {
@@ -92,6 +96,7 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
 //        funnel = hardwareMap.get(Servo.class, "funnel");
         leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
         rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
+        funnel = hardwareMap.get(Servo.class, "funnel");
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -108,7 +113,6 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        vertSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
@@ -154,7 +158,7 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
 //        }
 
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
             leftFrontDrive.setPower(-TURN_SPEED);
             leftBackDrive.setPower(-TURN_SPEED);
             rightFrontDrive.setPower(-TURN_SPEED);
@@ -164,13 +168,36 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
 
-            leftArmServoPos = leftArmServoPos - 0.13;//position= 0.37
+            leftArmServoPos = leftArmServoPos - 0.125;//position= 0.35; original (sub .13 -- pos .37)
             leftArmServo.setPosition(leftArmServoPos);
-            rightArmServoPos = rightArmServoPos + 0.13;//position= 0.63
+            rightArmServoPos = rightArmServoPos + 0.175;//position= 0.70; original (add .13 -- pos .63)
             rightArmServo.setPosition(rightArmServoPos);
 
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
+        }
+//
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.3)) {
+            leftFrontDrive.setPower(SLOW_SPEED);
+            leftBackDrive.setPower(SLOW_SPEED);
+            rightFrontDrive.setPower(SLOW_SPEED);
+            rightBackDrive.setPower(SLOW_SPEED);
+        }
+
+
+        while (opModeIsActive() && (runtime.seconds() < 3.1 && runtime.seconds() > 0.3)) {
+            vertSlide.setPower(-.95);//slides up
+            telemetry.addData("Runtime", getRuntime());
+            telemetry.update();
+        }
+
+       // runtime.reset();
+       // sleep(1000);
+        while (opModeIsActive() && (runtime.seconds() < 7 && runtime.seconds() > 3.1)) {
+            vertSlide.setPower((-.10));
+            funnelPos = funnelPos - 0.3;
+            funnel.setPosition(funnelPos);
         }
 
 
@@ -202,7 +229,7 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         leftBackDrive.setPower(0);
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
-        vertSlide.setPower(0);
+        vertSlide.setPower(-0.10);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
