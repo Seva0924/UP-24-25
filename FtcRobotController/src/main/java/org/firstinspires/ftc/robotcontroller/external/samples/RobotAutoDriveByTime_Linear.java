@@ -37,25 +37,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-/*
- * This OpMode illustrates the concept of driving a path based on time.
- * The code is structured as a LinearOpMode
- *
- * The code assumes that you do NOT have encoders on the wheels,
- *   otherwise you would use: RobotAutoDriveByEncoder;
- *
- *   The desired path in this example is:
- *   - Drive forward for 3 seconds
- *   - Spin right for 1.3 seconds
- *   - Drive Backward for 1 Second
- *
- *  The code is written in a simple form with no optimizations.
- *  However, there are several ways that this type of sequence could be streamlined,
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
- */
-
 @Autonomous(name="Robot: Auto Drive By Time", group="Robot")
 //@Disabled
 public class RobotAutoDriveByTime_Linear extends LinearOpMode {
@@ -78,7 +59,7 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
     static final double TURN_SPEED = 0.5;
     static final double SLIDE_SPEED = 0.95;
     static final double SLOW_SPEED = 0.09;
-    //    double     funnelPos = 0.5;
+    static final double SLOW_SPEEDY = 0.3;
     double leftArmServoPos = 0.5;
     double rightArmServoPos = 0.5;
     double funnelPos = 0.5;
@@ -93,15 +74,10 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         vertSlide = hardwareMap.get(DcMotor.class, "vertSlide");
-//        funnel = hardwareMap.get(Servo.class, "funnel");
         leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
         rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
         funnel = hardwareMap.get(Servo.class, "funnel");
 
-
-        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
-        // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
-        // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -112,50 +88,11 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        vertSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Ready to run");    //
         telemetry.update();
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-
-        // Step through each leg of the path, ensuring that the OpMode has not been stopped along the way.
-
-////         Step 1:  Drive forward for 3 seconds
-//        leftFrontDrive.setPower(FORWARD_SPEED);
-//        leftBackDrive.setPower(FORWARD_SPEED);
-//        rightBackDrive.setPower(FORWARD_SPEED);
-//        rightFrontDrive.setPower(FORWARD_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 2.8)) {
-//            telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
-//
-//        // Step 2:  Spin right for 1.3 seconds
-//        leftFrontDrive.setPower(TURN_SPEED);
-//        leftBackDrive.setPower(TURN_SPEED);
-//        rightFrontDrive.setPower(-TURN_SPEED);
-//        rightBackDrive.setPower(-TURN_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 1.3)) {
-//            telemetry.addData("Path", "Leg 2: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
-//
-////        // Step 3:  Drive Backward for 2 Seconds
-//        leftFrontDrive.setPower(-TURN_SPEED);
-//        leftBackDrive.setPower(-TURN_SPEED);
-//        rightFrontDrive.setPower(-TURN_SPEED);
-//        rightBackDrive.setPower(-TURN_SPEED);
-//        telemetry.addData("Backwards Successful", getRuntime());
-//        telemetry.update();
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-//            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5)) {
@@ -168,9 +105,7 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
 
-            leftArmServoPos = leftArmServoPos - 0.125;//position= 0.35; original (sub .13 -- pos .37)
             leftArmServo.setPosition(leftArmServoPos);
-            rightArmServoPos = rightArmServoPos + 0.175;//position= 0.70; original (add .13 -- pos .63)
             rightArmServo.setPosition(rightArmServoPos);
 
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
@@ -178,13 +113,12 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
         }
 //
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.3)) {
-            leftFrontDrive.setPower(SLOW_SPEED);
-            leftBackDrive.setPower(SLOW_SPEED);
-            rightFrontDrive.setPower(SLOW_SPEED);
-            rightBackDrive.setPower(SLOW_SPEED);
+        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
         }
-
 
         while (opModeIsActive() && (runtime.seconds() < 3.1 && runtime.seconds() > 0.3)) {
             vertSlide.setPower(-.95);//slides up
@@ -192,44 +126,30 @@ public class RobotAutoDriveByTime_Linear extends LinearOpMode {
             telemetry.update();
         }
 
-       // runtime.reset();
-       // sleep(1000);
-        while (opModeIsActive() && (runtime.seconds() < 7 && runtime.seconds() > 3.1)) {
+        while (opModeIsActive() && (runtime.seconds() < 6 && runtime.seconds() > 3.1)) {
             vertSlide.setPower((-.10));
             funnelPos = funnelPos - 0.3;
             funnel.setPosition(funnelPos);
         }
 
+        while (opModeIsActive() && (runtime.seconds() < 6.5 && runtime.seconds() > 6)) {
+            leftFrontDrive.setPower(TURN_SPEED);
+            leftBackDrive.setPower(TURN_SPEED);
+            rightFrontDrive.setPower(-TURN_SPEED);
+            rightBackDrive.setPower(-TURN_SPEED);
+        }
+        while (opModeIsActive() && (runtime.seconds() < 8 && runtime.seconds() > 6.5)) {
+            leftFrontDrive.setPower(TURN_SPEED);
+            leftBackDrive.setPower(TURN_SPEED);
+            rightFrontDrive.setPower(TURN_SPEED);
+            rightBackDrive.setPower(TURN_SPEED);
+        }
 
-
-
-//// vert slides up
-
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-//            vertSlide.setPower(SLIDE_SPEED);
-//            telemetry.addData("Vertical Slides Successful", getRuntime());
-//            telemetry.update();
-//            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
-//
-//        vertSlide.setPower(SLIDE_SPEED);
-//        runtime.reset();
-//        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
-//            telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
-//            telemetry.update();
-//        }
-//
-//        funnelPos = funnelPos + 0.3;
-//        funnel.setPosition(funnelPos);
-
-        // Step 4:  Stop
         leftFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
-        vertSlide.setPower(-0.10);
+        vertSlide.setPower(0);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
