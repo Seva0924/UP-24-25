@@ -27,14 +27,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -63,8 +60,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Robot: Auto Drive By Encoder", group="Robot")
-public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
+@TeleOp(name="Encoder Testing", group="Robot")
+public class UPEncoderTesting extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor vertSlide = null;
@@ -123,7 +120,7 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 //        telemetry.addData("Path", "Complete");
 //        telemetry.update();
 //        sleep(1000);  // pause to display final telemetry message.
-//
+
 
         /*
          *  Method to perform a relative move, based on encoder counts.
@@ -140,7 +137,7 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 //        int newRightTarget;
 
         // Ensure that the OpMode is still active
-        if (opModeIsActive()) {
+        while (opModeIsActive()) {
 
 //            // Determine new target position, and pass to motor controller
 //            newLeftTarget = vertSlide.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
@@ -184,15 +181,33 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 //
 //            sleep(250);   // optional pause after each move.
 
-            if (gamepad2.left_trigger >= .95){ // slides move out
-                horizontalSlide.setPower(-.95);
-                telemetry.addData("Horizontal Encoder Count", horizontalSlide.getCurrentPosition());
-                telemetry.update();
-            }
-            if (gamepad2.right_trigger >= .95){ // slides retract
+//            if (gamepad2.left_trigger >= .95){ // slides move in
+//                horizontalSlide.setPower(-.95);
+//                telemetry.addData("Horizontal Encoder Count", horizontalSlide.getCurrentPosition());
+//                telemetry.update();
+//            } else {
+//                horizontalSlide.setPower(0);
+//            }
+//
+//            if (gamepad2.right_trigger >= .95){ // slides go out
+//                horizontalSlide.setPower(.95);
+//
+//            } else {
+//                horizontalSlide.setPower(0);
+//            }
+            if(horizontalSlide.getCurrentPosition()< 1250 && gamepad2.left_trigger >= .95){
                 horizontalSlide.setPower(.95);
                 telemetry.addData("Horizontal Encoder Count", horizontalSlide.getCurrentPosition());
                 telemetry.update();
+            } else {
+                horizontalSlide.setPower(0);
+            }
+            if(horizontalSlide.getCurrentPosition()> 0 && gamepad2.right_trigger >= .95){
+                horizontalSlide.setPower(-.95);
+                telemetry.addData("Horizontal Encoder Count", horizontalSlide.getCurrentPosition());
+                telemetry.update();
+            } else {
+                horizontalSlide.setPower(0);
             }
 
         }
