@@ -81,6 +81,13 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
     private Servo funnel = null;
     private DcMotor pullUp = null;
     private DcMotor extension = null;
+    static final double COUNTS_PER_MOTOR_REV = 537.7;    // eg: TETRIX Motor Encoder
+    static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
+    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double DRIVE_SPEED = 0.6;
+    static final double TURN_SPEED = 0.5;
     @Override
     public void runOpMode() {
 
@@ -100,6 +107,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
         pullUp = hardwareMap.get(DcMotor.class, "pullUp");
         extension = hardwareMap.get(DcMotor.class, "extension");
 
+
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
         // ########################################################################################
@@ -110,6 +118,12 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
         // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
         // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
         // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
+        vertSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        horizontalSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        vertSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        horizontalSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -264,21 +278,21 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 //            }
 //
                     //SLIDES CODE
-                    if (gamepad2.left_trigger >= .95) { // Slides Move Out
+                    if (gamepad2.left_trigger >= .95 && horizontalSlide.getCurrentPosition()< 1250) { // Slides Move Out
                         horizontalSlide.setPower(-.95);
-                    } else if (gamepad2.right_trigger > .95) { //Slides Retract
+                    } else if (gamepad2.right_trigger > .95 && horizontalSlide.getCurrentPosition() > 0) { //Slides Retract
                         horizontalSlide.setPower(.95);
                     } else {
                         horizontalSlide.setPower(0);
                     }
 
 
-                    if (gamepad2.b) {
+                    if (gamepad2.b && vertSlide.getCurrentPosition()>0) {
                         vertSlide.setPower(-.95);// slides down
                     }// else {
                      //   vertSlide.setPower(0);
                    // }
-                    else if (gamepad2.a) {
+                    else if (gamepad2.a && vertSlide.getCurrentPosition()<5000) {
                         vertSlide.setPower(.95);//slides up
                     }
                     else if (gamepad2.dpad_up){
