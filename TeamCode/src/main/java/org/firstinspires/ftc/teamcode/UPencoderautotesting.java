@@ -173,34 +173,69 @@ public class UPencoderautotesting extends LinearOpMode {
                              double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
-    while opModeIsActive(){
+    while (opModeIsActive()); {
+        //arms down set pos
             leftArmServoPos = leftArmServoPos - 0.11;//position= 0.35; original (sub .13 -- pos .37)
             rightArmServoPos = rightArmServoPos + 0.14;//position= 0.70; original (add .13 -- pos .63)
             leftArmServo.setPosition(leftArmServoPos);
             rightArmServo.setPosition(rightArmServoPos);
         // Ensure that the OpMode is still active
+        //horizontal slides go out
         if (opModeIsActive() && horizontalSlide.getCurrentPosition()<1250) {
             horizontalSlide.setPower(.95);
         } else if (opModeIsActive() && horizontalSlide.getCurrentPosition()>=1250){
             horizontalSlide.setPower(0);
         }
-
-        clawPos = clawPos + 0.2;
+//claw opens and closes
+        clawPos = clawPos -.35;
         claw.setPosition(clawPos);
         sleep(1000);
-        clawPos = clawPos - 0.2;
+        clawPos = clawPos + 0.05;
         claw.setPosition(clawPos);
-
+//slides in
         if (opModeIsActive() && horizontalSlide.getCurrentPosition()>0) {
                 horizontalSlide.setPower(-.95);
         } else if (opModeIsActive() && horizontalSlide.getCurrentPosition()<=0){
             horizontalSlide.setPower(0);
             }
-
-            leftArmServoPos = leftArmServoPos - 0.11;//position= 0.35; original (sub .13 -- pos .37)
+//arms raise
+            leftArmServoPos = leftArmServoPos + 0.35;// position= 0.86; original (add .34 -- pos .84)
             leftArmServo.setPosition(leftArmServoPos);
-            rightArmServoPos = rightArmServoPos + 0.14;//position= 0.70; original (add .13 -- pos .63)
+            rightArmServoPos = rightArmServoPos - 0.29;// position= 0.19; original (sub .34 -- pos .16)
             rightArmServo.setPosition(rightArmServoPos);
+//wrist turns
+            wristPos = wristPos - 0.6;
+            wrist.setPosition(wristPos);
+
+ //claw opens
+            clawPos = clawPos - .35;
+            claw.setPosition(clawPos);
+ //arms down
+            leftArmServoPos = leftArmServoPos - 0.11;//position= 0.35; original (sub .13 -- pos .37)
+            rightArmServoPos = rightArmServoPos + 0.14;//position= 0.70; original (add .13 -- pos .63)
+            leftArmServo.setPosition(leftArmServoPos);
+            rightArmServo.setPosition(rightArmServoPos);
+ //vert slides up
+            if (opModeIsActive() && vertSlide.getCurrentPosition()<4500) {
+                vertSlide.setPower(.95);
+            } else if (opModeIsActive() && vertSlide.getCurrentPosition()>=4500 && vertSlide.getCurrentPosition()<5000) {
+                vertSlide.setPower(0.1);
+            } else{
+                vertSlide.setPower(0.1);
+            }
+ //funnel servo open and close
+            funnelPos = funnelPos + 0.3;
+            funnel.setPosition(funnelPos);
+            sleep(2000);
+            funnelPos = funnelPos - 0.1;
+            funnel.setPosition(funnelPos);
+// slides down
+            if (opModeIsActive() && vertSlide.getCurrentPosition()>0) {
+                vertSlide.setPower(-.95);
+            } else{
+                vertSlide.setPower(0);
+            }
+
             // Determine new target position, and pass to motor controller
 //            newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
 //            newRightTarget = rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);

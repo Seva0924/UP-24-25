@@ -205,19 +205,19 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
             double funnelPos = 0.5;
 //CLAW CODE
             if (gamepad2.x) { //Open Claw
-                clawPos = clawPos + 0.2;
+                clawPos = clawPos - 0.35;
                 claw.setPosition(clawPos);
             }
             if (gamepad2.y) { //Close Claw
-                clawPos = clawPos - 0.2;
+                clawPos = clawPos + 0.05;
                 claw.setPosition(clawPos);
             }
             if (gamepad2.right_stick_x > 0) { // when joystick pushed down Wrist Moves ____?
-                wristPos = wristPos + 0.3;
+                wristPos = wristPos - 0.6;
                 wrist.setPosition(wristPos);
             }
             if (gamepad2.right_stick_x < 0) { //when joystick pushed up Wrist Moves ___?
-                wristPos = wristPos - 0.38;
+                wristPos = wristPos + 0.1;
                 wrist.setPosition(wristPos);
             }
 
