@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -61,7 +62,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Up Encoder Auto", group="Robot")
+@Autonomous(name="Up Encoder Auto")
 public class UPencoderautotesting extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -115,7 +116,6 @@ public class UPencoderautotesting extends LinearOpMode {
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-//        vertSlide.setDirection(DcMotor.Direction.REVERSE);
         horizontalSlide.setDirection(DcMotor.Direction.REVERSE);
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -208,7 +208,7 @@ public class UPencoderautotesting extends LinearOpMode {
             wrist.setPosition(wristPos);
 
  //claw opens
-            clawPos = clawPos - .35;
+            clawPos = clawPos - 0.35;
             claw.setPosition(clawPos);
  //arms down
             leftArmServoPos = leftArmServoPos - 0.11;//position= 0.35; original (sub .13 -- pos .37)
