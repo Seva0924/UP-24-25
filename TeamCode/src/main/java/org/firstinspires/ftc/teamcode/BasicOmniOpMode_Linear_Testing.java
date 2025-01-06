@@ -88,6 +88,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double DRIVE_SPEED = 0.6;
     static final double TURN_SPEED = 0.5;
+
     @Override
     public void runOpMode() {
 
@@ -240,11 +241,11 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 
 //FUNNEL CODE
                     if (gamepad2.dpad_left) {// Open Funnel
-                        funnelPos = funnelPos + 0.3;
+                        funnelPos = funnelPos + 0.15;
                         funnel.setPosition(funnelPos);
                     }
                     if (gamepad2.dpad_right) {// Close Funnel
-                        funnelPos = funnelPos - 0.1;
+                        funnelPos = funnelPos - 0.5;
                         funnel.setPosition(funnelPos);
                     }
 
@@ -278,29 +279,50 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 //            }
 //
                     //SLIDES CODE
-                    if (gamepad2.left_trigger >= .95 && horizontalSlide.getCurrentPosition()< 1250) { // Slides Move Out
+                    if (gamepad2.left_trigger >= .95) { // Slides Move Out
                         horizontalSlide.setPower(-.95);
-                    } else if (gamepad2.right_trigger > .95 && horizontalSlide.getCurrentPosition() > 0) { //Slides Retract
+                    } else if (gamepad2.right_trigger > .95) { //Slides Retract
                         horizontalSlide.setPower(.95);
                     } else {
                         horizontalSlide.setPower(0);
                     }
 
 
-                    if (gamepad2.b && vertSlide.getCurrentPosition()>0) {
+                    if (gamepad2.b) {
                         vertSlide.setPower(-.95);// slides down
-                    }// else {
-                     //   vertSlide.setPower(0);
-                   // }
-                    else if (gamepad2.a && vertSlide.getCurrentPosition()<5000) {
-                        vertSlide.setPower(.95);//slides up
+//                    } else {
+//                        vertSlide.setPower(0);
                     }
-                    else if (gamepad2.dpad_up){
+
+                    if (gamepad2.a) {
+                        vertSlide.setPower(.95);//slides up
+//                    } else {
+//                        vertSlide.setPower(0);
+                    }
+
+                    if (gamepad2.dpad_up) {
                         vertSlide.setPower(0.1);
                     }
-                    else{
-                        vertSlide.setPower(0.0);
-                    }
+//                    } else {
+//                        vertSlide.setPower(0.0);
+//                    }
+
+
+//drive by encoder
+//                    if (gamepad2.b && vertSlide.getCurrentPosition()>0) {
+//                        vertSlide.setPower(-.95);// slides down
+//                    }// else {
+//                    //   vertSlide.setPower(0);
+//
+//                    else if (gamepad2.a && vertSlide.getCurrentPosition()<5000) {
+//                        vertSlide.setPower(.95);//slides up
+//                    }
+//                    else if (gamepad2.dpad_up){
+//                        vertSlide.setPower(0.1);
+//                    }
+//                    else{
+//                        vertSlide.setPower(0.0);
+//                    }
 //SLOW MO
                     if (gamepad1.dpad_left) {
                         leftFrontDrive.setPower(0.65);
@@ -348,4 +370,5 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
             }
         }
 
-    }}
+    }
+}

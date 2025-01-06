@@ -31,7 +31,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -63,6 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Up Encoder Auto")
+
 public class UPencoderautotesting extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -77,7 +78,8 @@ public class UPencoderautotesting extends LinearOpMode {
     private DcMotor vertSlide = null;
     private DcMotor horizontalSlide = null;
     private Servo funnel = null;
-    private ElapsedTime     runtime = new ElapsedTime();
+
+    private ElapsedTime runtime = new ElapsedTime();
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
@@ -92,11 +94,13 @@ public class UPencoderautotesting extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
     static final double     TURN_SPEED              = 0.5;
+
     double clawPos = 0.5;
     double wristPos = 0.7;
     double leftArmServoPos = 0.5;
     double rightArmServoPos = 0.5;
     double funnelPos = 0.5;
+
     @Override
     public void runOpMode() {
 
@@ -106,6 +110,7 @@ public class UPencoderautotesting extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         vertSlide = hardwareMap.get(DcMotor.class, "vertSlide");
+        horizontalSlide = hardwareMap.get(DcMotor.class, "horizontalSlide");
         leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
         rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
         claw = hardwareMap.get(Servo.class, "claw");
@@ -158,7 +163,7 @@ public class UPencoderautotesting extends LinearOpMode {
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
-    }
+
 
     /*
      *  Method to perform a relative move, based on encoder counts.
@@ -168,53 +173,60 @@ public class UPencoderautotesting extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the OpMode running.
      */
-    public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) {
-        int newLeftTarget;
-        int newRightTarget;
-    while (opModeIsActive()); {
+//    public void encoderDrive(double speed,
+//                             double leftInches, double rightInches,
+//                             double timeoutS) {
+//        int newLeftTarget;
+//        int newRightTarget;
+    while (opModeIsActive() && (runtime.seconds() < 30)) {
         //arms down set pos
-            leftArmServoPos = leftArmServoPos - 0.11;//position= 0.35; original (sub .13 -- pos .37)
-            rightArmServoPos = rightArmServoPos + 0.14;//position= 0.70; original (add .13 -- pos .63)
-            leftArmServo.setPosition(leftArmServoPos);
-            rightArmServo.setPosition(rightArmServoPos);
+            leftArmServo.setPosition(.39);
+            rightArmServo.setPosition(.64);
+            sleep(1000);
         // Ensure that the OpMode is still active
         //horizontal slides go out
-        if (opModeIsActive() && horizontalSlide.getCurrentPosition()<1250) {
+        if (opModeIsActive() && horizontalSlide.getCurrentPosition()<20) {
+            telemetry.addData("Horz Slide Postion (inside IF)", horizontalSlide.getCurrentPosition());
+            telemetry.update();
             horizontalSlide.setPower(.95);
-        } else if (opModeIsActive() && horizontalSlide.getCurrentPosition()>=1250){
+            telemetry.addData("Horz Slide Power (inside IF)", horizontalSlide.getPower());
+            telemetry.update();
+        } else if (opModeIsActive() && horizontalSlide.getCurrentPosition()>=300){
+            telemetry.addData("Horz Slide Postion (inside ELSE IF)", horizontalSlide.getCurrentPosition());
+            telemetry.update();
             horizontalSlide.setPower(0);
+            telemetry.addData("Horz Slide Power (inside ELSE IF)", horizontalSlide.getPower());
+            telemetry.update();
         }
-//claw opens and closes
-        clawPos = clawPos -.35;
-        claw.setPosition(clawPos);
         sleep(1000);
-        clawPos = clawPos + 0.05;
-        claw.setPosition(clawPos);
+//claw opens and closes
+        claw.setPosition(.15);
+        sleep(1000);
+        claw.setPosition(.55);
+        sleep(1000);
 //slides in
         if (opModeIsActive() && horizontalSlide.getCurrentPosition()>0) {
                 horizontalSlide.setPower(-.95);
         } else if (opModeIsActive() && horizontalSlide.getCurrentPosition()<=0){
             horizontalSlide.setPower(0);
             }
+        sleep(1000);
 //arms raise
-            leftArmServoPos = leftArmServoPos + 0.35;// position= 0.86; original (add .34 -- pos .84)
-            leftArmServo.setPosition(leftArmServoPos);
-            rightArmServoPos = rightArmServoPos - 0.29;// position= 0.19; original (sub .34 -- pos .16)
-            rightArmServo.setPosition(rightArmServoPos);
+
+            leftArmServo.setPosition(.9);
+            rightArmServo.setPosition(.26);
+        sleep(1000);
 //wrist turns
-            wristPos = wristPos - 0.6;
-            wrist.setPosition(wristPos);
+            wrist.setPosition(.1);
+        sleep(1000);
 
  //claw opens
-            clawPos = clawPos - 0.35;
-            claw.setPosition(clawPos);
+            claw.setPosition(.15);
+        sleep(1000);
  //arms down
-            leftArmServoPos = leftArmServoPos - 0.11;//position= 0.35; original (sub .13 -- pos .37)
-            rightArmServoPos = rightArmServoPos + 0.14;//position= 0.70; original (add .13 -- pos .63)
-            leftArmServo.setPosition(leftArmServoPos);
-            rightArmServo.setPosition(rightArmServoPos);
+            leftArmServo.setPosition(.39);
+            rightArmServo.setPosition(.64);
+        sleep(1000);
  //vert slides up
             if (opModeIsActive() && vertSlide.getCurrentPosition()<4500) {
                 vertSlide.setPower(.95);
@@ -223,12 +235,14 @@ public class UPencoderautotesting extends LinearOpMode {
             } else{
                 vertSlide.setPower(0.1);
             }
+        sleep(1000);
  //funnel servo open and close
-            funnelPos = funnelPos + 0.3;
+            funnelPos = funnelPos + 0.15;
             funnel.setPosition(funnelPos);
-            sleep(2000);
-            funnelPos = funnelPos - 0.1;
+            sleep(1000);
+            funnelPos = funnelPos - 0.5;
             funnel.setPosition(funnelPos);
+        sleep(1000);
 // slides down
             if (opModeIsActive() && vertSlide.getCurrentPosition()>0) {
                 vertSlide.setPower(-.95);
@@ -277,6 +291,17 @@ public class UPencoderautotesting extends LinearOpMode {
 //            rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //
 //            sleep(250);   // optional pause after each move.
+        telemetry.addData("Auto", "Complete");
+        telemetry.update();
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Claw", clawPos);
+        telemetry.addData("Wrist", wristPos);
+        telemetry.addData("LeftArmServo", leftArmServoPos);
+        telemetry.addData("RightArmServo", rightArmServoPos);
+        telemetry.addData("funnel", funnelPos);
+        telemetry.addData("HorizontalSlide", horizontalSlide.getPower());
+        telemetry.addData("vertSlide", vertSlide.getPower());
+        telemetry.update();
         }
     }
 }
