@@ -185,13 +185,16 @@ public class UPencoderautotesting extends LinearOpMode {
             sleep(1000);
         // Ensure that the OpMode is still active
         //horizontal slides go out
-        if (opModeIsActive() && horizontalSlide.getCurrentPosition()<20) {
+        if (horizontalSlide.getCurrentPosition()<200) {
             telemetry.addData("Horz Slide Postion (inside IF)", horizontalSlide.getCurrentPosition());
-            telemetry.update();
-            horizontalSlide.setPower(.95);
+            telemetry.addData("Slides Extend Power", horizontalSlide.getPower());
+
+            horizontalSlide.setPower(.3);
             telemetry.addData("Horz Slide Power (inside IF)", horizontalSlide.getPower());
+            telemetry.addData("Horz Slide Postion (inside IF)", horizontalSlide.getCurrentPosition());
+            telemetry.addData("Slides Extend Power", horizontalSlide.getPower());
             telemetry.update();
-        } else if (opModeIsActive() && horizontalSlide.getCurrentPosition()>=300){
+        } else if (horizontalSlide.getCurrentPosition()>=300){
             telemetry.addData("Horz Slide Postion (inside ELSE IF)", horizontalSlide.getCurrentPosition());
             telemetry.update();
             horizontalSlide.setPower(0);
@@ -299,8 +302,8 @@ public class UPencoderautotesting extends LinearOpMode {
         telemetry.addData("LeftArmServo", leftArmServoPos);
         telemetry.addData("RightArmServo", rightArmServoPos);
         telemetry.addData("funnel", funnelPos);
-        telemetry.addData("HorizontalSlide", horizontalSlide.getPower());
-        telemetry.addData("vertSlide", vertSlide.getPower());
+//        telemetry.addData("HorizontalSlide", horizontalSlide.getPower());
+//        telemetry.addData("vertSlide", vertSlide.getPower());
         telemetry.update();
         }
     }
