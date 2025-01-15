@@ -87,13 +87,13 @@ public class UPencoderautotesting extends LinearOpMode {
     // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
     // This is gearing DOWN for less speed and more torque.
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+    static final double COUNTS_PER_MOTOR_REV = 1440;    // eg: TETRIX Motor Encoder
+    static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
+    static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
-    static final double     TURN_SPEED              = 0.5;
+    static final double DRIVE_SPEED = 0.6;
+    static final double TURN_SPEED = 0.5;
 
     double clawPos = 0.5;
     double wristPos = 0.7;
@@ -146,7 +146,7 @@ public class UPencoderautotesting extends LinearOpMode {
         horizontalSlide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Starting at",  "%7d :%7d",
+        telemetry.addData("Starting at", "%7d :%7d",
                 vertSlide.getCurrentPosition(),
                 horizontalSlide.getCurrentPosition());
         telemetry.update();
@@ -165,95 +165,124 @@ public class UPencoderautotesting extends LinearOpMode {
         sleep(1000);  // pause to display final telemetry message.
 
 
-    /*
-     *  Method to perform a relative move, based on encoder counts.
-     *  Encoders are not reset as the move is based on the current position.
-     *  Move will stop if any of three conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Move runs out of time
-     *  3) Driver stops the OpMode running.
-     */
+        /*
+         *  Method to perform a relative move, based on encoder counts.
+         *  Encoders are not reset as the move is based on the current position.
+         *  Move will stop if any of three conditions occur:
+         *  1) Move gets to the desired position
+         *  2) Move runs out of time
+         *  3) Driver stops the OpMode running.
+         */
 //    public void encoderDrive(double speed,
 //                             double leftInches, double rightInches,
 //                             double timeoutS) {
 //        int newLeftTarget;
 //        int newRightTarget;
-    while (opModeIsActive() && (runtime.seconds() < 30)) {
-        //arms down set pos
+        while (opModeIsActive() && (runtime.seconds() < 30)) {
+            //arms down set pos
             leftArmServo.setPosition(.39);
             rightArmServo.setPosition(.64);
             sleep(1000);
-        // Ensure that the OpMode is still active
-        //horizontal slides go out
-        if (horizontalSlide.getCurrentPosition()<200) {
-            telemetry.addData("Horz Slide Postion (inside IF)", horizontalSlide.getCurrentPosition());
-            telemetry.addData("Slides Extend Power", horizontalSlide.getPower());
-
-            horizontalSlide.setPower(.3);
-            telemetry.addData("Horz Slide Power (inside IF)", horizontalSlide.getPower());
-            telemetry.addData("Horz Slide Postion (inside IF)", horizontalSlide.getCurrentPosition());
-            telemetry.addData("Slides Extend Power", horizontalSlide.getPower());
-            telemetry.update();
-        } else if (horizontalSlide.getCurrentPosition()>=300){
-            telemetry.addData("Horz Slide Postion (inside ELSE IF)", horizontalSlide.getCurrentPosition());
-            telemetry.update();
-            horizontalSlide.setPower(0);
-            telemetry.addData("Horz Slide Power (inside ELSE IF)", horizontalSlide.getPower());
-            telemetry.update();
-        }
-        sleep(1000);
-//claw opens and closes
-        claw.setPosition(.15);
-        sleep(1000);
-        claw.setPosition(.55);
-        sleep(1000);
-//slides in
-        if (opModeIsActive() && horizontalSlide.getCurrentPosition()>0) {
-                horizontalSlide.setPower(-.95);
-        } else if (opModeIsActive() && horizontalSlide.getCurrentPosition()<=0){
-            horizontalSlide.setPower(0);
+            // Ensure that the OpMode is still active
+            //horizontal slides go out
+            runtime.reset();
+            while (opModeIsActive() && (runtime.seconds() > 2.0 && runtime.seconds() > 0)) {
+                vertSlide.setPower(.95);//slides in
+                telemetry.addData("Runtime", getRuntime());
+                telemetry.update();
             }
-        sleep(1000);
+//        if (horizontalSlide.getCurrentPosition() >= 0 ||  horizontalSlide.getCurrentPosition() < 200) {
+//            telemetry.addData("Horz Slide Postion (inside IF)", horizontalSlide.getCurrentPosition());
+//            telemetry.addData("Slides Extend Power", horizontalSlide.getPower());
+//
+//            horizontalSlide.setPower(.3);
+//            telemetry.addData("Horz Slide Power (inside IF)", horizontalSlide.getPower());
+//            telemetry.addData("Horz Slide Postion (inside IF)", horizontalSlide.getCurrentPosition());
+//            telemetry.addData("Slides Extend Power", horizontalSlide.getPower());
+//            telemetry.update();
+//            if (horizontalSlide.getCurrentPosition()>=200){
+//                telemetry.addData("Horz Slide Postion (inside ELSE IF)", horizontalSlide.getCurrentPosition());
+//                telemetry.update();
+//                horizontalSlide.setPower(0);
+//                telemetry.addData("Horz Slide Power (inside ELSE IF)", horizontalSlide.getPower());
+//                telemetry.update();
+//            }
+//        }
+
+
+                sleep(1000);
+//claw opens and closes
+                claw.setPosition(.15);
+                sleep(1000);
+                claw.setPosition(.55);
+                sleep(1000);
+//slides in
+//        if (opModeIsActive() && horizontalSlide.getCurrentPosition()>0) {
+//                horizontalSlide.setPower(-.95);
+//        } else if (opModeIsActive() && horizontalSlide.getCurrentPosition()<=0){
+//            horizontalSlide.setPower(0);
+//            }
+                runtime.reset();
+                while (opModeIsActive() && (runtime.seconds() > 2.0 && runtime.seconds() > 0)) {
+                    vertSlide.setPower(-.95);//slides in
+                    telemetry.addData("Runtime", getRuntime());
+                    telemetry.update();
+                }
+                    sleep(1000);
 //arms raise
 
-            leftArmServo.setPosition(.9);
-            rightArmServo.setPosition(.26);
-        sleep(1000);
+                    leftArmServo.setPosition(.9);
+                    rightArmServo.setPosition(.26);
+                    sleep(1000);
 //wrist turns
-            wrist.setPosition(.1);
-        sleep(1000);
+                    wrist.setPosition(.1);
+                    sleep(1000);
 
- //claw opens
-            claw.setPosition(.15);
-        sleep(1000);
- //arms down
-            leftArmServo.setPosition(.39);
-            rightArmServo.setPosition(.64);
-        sleep(1000);
- //vert slides up
-            if (opModeIsActive() && vertSlide.getCurrentPosition()<4500) {
-                vertSlide.setPower(.95);
-            } else if (opModeIsActive() && vertSlide.getCurrentPosition()>=4500 && vertSlide.getCurrentPosition()<5000) {
-                vertSlide.setPower(0.1);
-            } else{
-                vertSlide.setPower(0.1);
-            }
-        sleep(1000);
- //funnel servo open and close
-            funnelPos = funnelPos + 0.15;
-            funnel.setPosition(funnelPos);
-            sleep(1000);
-            funnelPos = funnelPos - 0.5;
-            funnel.setPosition(funnelPos);
-        sleep(1000);
+                    //claw opens
+                    claw.setPosition(.15);
+                    sleep(1000);
+                    //arms down
+                    leftArmServo.setPosition(.39);
+                    rightArmServo.setPosition(.64);
+                    sleep(1000);
+                    //vert slides up
+//            if (opModeIsActive() && vertSlide.getCurrentPosition()<4500) {
+//                vertSlide.setPower(.95);
+//            } else if (opModeIsActive() && vertSlide.getCurrentPosition()>=4500 && vertSlide.getCurrentPosition()<5000) {
+//                vertSlide.setPower(0.1);
+//            } else{
+//                vertSlide.setPower(0.1);
+//            }
+                    runtime.reset();
+                    while (opModeIsActive() && (runtime.seconds() > 2.8 && runtime.seconds() > 0)) {
+                        vertSlide.setPower(-.95);//slides up
+                        telemetry.addData("Runtime", getRuntime());
+                        telemetry.update();
+                    }
+
+                        sleep(1000);
+                        //funnel servo open and close
+                        funnelPos = funnelPos + 0.15;
+                        funnel.setPosition(funnelPos);
+                        sleep(1000);
+                        funnelPos = funnelPos - 0.5;
+                        funnel.setPosition(funnelPos);
+                        sleep(1000);
 // slides down
-            if (opModeIsActive() && vertSlide.getCurrentPosition()>0) {
-                vertSlide.setPower(-.95);
-            } else{
-                vertSlide.setPower(0);
-            }
+//            if (opModeIsActive() && vertSlide.getCurrentPosition()>0) {
+//                vertSlide.setPower(-.95);
+//            } else{
+//                vertSlide.setPower(0);
+//            }
+                        resetRuntime();
+                        while (opModeIsActive() && (runtime.seconds() > 2.8 && runtime.seconds() > 0)) {
+                            vertSlide.setPower(.95);//slides down
+                            telemetry.addData("Runtime", getRuntime());
+                            telemetry.update();
 
-            // Determine new target position, and pass to motor controller
+                        }
+
+                        // Determine new target position, and pass to motor controller
 //            newLeftTarget = leftDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
 //            newRightTarget = rightDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
 //            leftDrive.setTargetPosition(newLeftTarget);
@@ -294,17 +323,17 @@ public class UPencoderautotesting extends LinearOpMode {
 //            rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //
 //            sleep(250);   // optional pause after each move.
-        telemetry.addData("Auto", "Complete");
-        telemetry.update();
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Claw", clawPos);
-        telemetry.addData("Wrist", wristPos);
-        telemetry.addData("LeftArmServo", leftArmServoPos);
-        telemetry.addData("RightArmServo", rightArmServoPos);
-        telemetry.addData("funnel", funnelPos);
+                        telemetry.addData("Auto", "Complete");
+                        telemetry.update();
+                        telemetry.addData("Status", "Run Time: " + runtime.toString());
+                        telemetry.addData("Claw", clawPos);
+                        telemetry.addData("Wrist", wristPos);
+                        telemetry.addData("LeftArmServo", leftArmServoPos);
+                        telemetry.addData("RightArmServo", rightArmServoPos);
+                        telemetry.addData("funnel", funnelPos);
 //        telemetry.addData("HorizontalSlide", horizontalSlide.getPower());
 //        telemetry.addData("vertSlide", vertSlide.getPower());
-        telemetry.update();
-        }
-    }
-}
+                        telemetry.update();
+                    }
+                }
+            }
