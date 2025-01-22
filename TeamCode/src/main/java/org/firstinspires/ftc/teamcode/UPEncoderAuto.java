@@ -60,7 +60,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
+@Autonomous(name="UP Encoder Auto Drive Test", group="Robot")
 public class UPEncoderAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
