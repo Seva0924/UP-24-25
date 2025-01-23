@@ -46,6 +46,10 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
     private Servo rightArmServo = null;
     private DcMotor vertSlide = null;
     private Servo funnel = null;
+    private Servo claw = null;
+    private Servo wrist = null;
+    private DcMotor horizontalSlide = null;
+
 //    private Servo funnel = null;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -56,6 +60,8 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
     static final double SLIDE_SPEED = 0.95;
     static final double SLOW_SPEED = 0.09;
     static final double SLOW_SPEEDY = 0.3;
+    double clawPos = 0.5;
+    double wristPos = 0.7;
     double leftArmServoPos = 0.5;
     double rightArmServoPos = 0.5;
     double funnelPos = 0.5;
@@ -127,28 +133,86 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             funnelPos = funnelPos - 0.3;
             funnel.setPosition(funnelPos);
         }
-
-        while (opModeIsActive() && (runtime.seconds() < 6.5 && runtime.seconds() > 6)) {
-            leftFrontDrive.setPower(TURN_SPEED);
-            leftBackDrive.setPower(TURN_SPEED);
-            rightFrontDrive.setPower(-TURN_SPEED);
-            rightBackDrive.setPower(-TURN_SPEED);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 2.8 && runtime.seconds() > 0)) {
+            vertSlide.setPower(.95);//slides down
+            telemetry.addData("Runtime", getRuntime());
+            telemetry.update();
         }
-        while (opModeIsActive() && (runtime.seconds() < 8 && runtime.seconds() > 6.5)) {
-            leftFrontDrive.setPower(TURN_SPEED);
-            leftBackDrive.setPower(TURN_SPEED);
+        leftArmServo.setPosition(.9);
+        rightArmServo.setPosition(.26);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < .5 && runtime.seconds() > 0)) {
+            leftFrontDrive.setPower(-TURN_SPEED);
+            leftBackDrive.setPower(-TURN_SPEED);
             rightFrontDrive.setPower(TURN_SPEED);
             rightBackDrive.setPower(TURN_SPEED);
         }
+        leftArmServo.setPosition(.39);
+        rightArmServo.setPosition(.64);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() > 2.0 && runtime.seconds() > 0)) {
+            horizontalSlide.setPower(-.95);//slides out
+            telemetry.addData("Runtime", getRuntime());
+            telemetry.update();
+        }
+        sleep(1000);
+        claw.setPosition(.15);
+        sleep(1000);
+        claw.setPosition(.55);
+        sleep(1000);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() > 2.0 && runtime.seconds() > 0)) {
+            horizontalSlide.setPower(.95);//slides in
+            telemetry.addData("Runtime", getRuntime());
+            telemetry.update();
+        }
+        //arms raise
+        leftArmServo.setPosition(.9);
+        rightArmServo.setPosition(.26);
+        //wrist turns
+        wrist.setPosition(.1);
+        sleep(1000);
 
+        //claw opens
+        claw.setPosition(.15);
+        sleep(1000);
+        //arms down
+        leftArmServo.setPosition(.39);
+        rightArmServo.setPosition(.64);
+        sleep(1000);
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 2.8 && runtime.seconds() > 0)) {
+            vertSlide.setPower(-.95);//slides up
+            telemetry.addData("Runtime", getRuntime());
+            telemetry.update();
+        }
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 2.8 && runtime.seconds() > 0)) {
+            vertSlide.setPower((-.10));
+            funnelPos = funnelPos - 0.3;
+            funnel.setPosition(funnelPos);
+        }
+        sleep(1000);
+        claw.setPosition(.15);
+
+        runtime.reset();
+        sleep(1000);
+        while (opModeIsActive() && (runtime.seconds() < 2.8 && runtime.seconds() > 0)) {
+            vertSlide.setPower(.95);//slides up
+            telemetry.addData("Runtime", getRuntime());
+            telemetry.update();
+        }
         leftFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
         rightFrontDrive.setPower(0);
         rightBackDrive.setPower(0);
         vertSlide.setPower(0);
+        horizontalSlide.setPower(0);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
+
     }
 }
 
