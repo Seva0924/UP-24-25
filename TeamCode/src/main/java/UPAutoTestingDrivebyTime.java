@@ -76,6 +76,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         vertSlide = hardwareMap.get(DcMotor.class, "vertSlide");
+        horizontalSlide = hardwareMap.get(DcMotor.class, "horizontalSlide");
         leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
         rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
         funnel = hardwareMap.get(Servo.class, "funnel");
@@ -162,7 +163,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             rightArmServo.setPosition(.64);
         }
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 1 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < .96 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(-TURN_SPEED);
             leftBackDrive.setPower(-TURN_SPEED);
             rightFrontDrive.setPower(TURN_SPEED);
@@ -180,7 +181,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         rightArmServo.setPosition(.64);
 
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < .35 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < .15 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(TURN_SPEED);
             leftBackDrive.setPower(TURN_SPEED);
             rightFrontDrive.setPower(TURN_SPEED);
