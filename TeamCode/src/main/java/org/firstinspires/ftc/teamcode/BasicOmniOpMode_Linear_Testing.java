@@ -200,7 +200,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 
             // Send calculated power to wheels\
             double clawPos = 0.5;
-            double wristPos = 0.7;
+            double wristPos = 0.5;
             double leftArmServoPos = 0.5;
             double rightArmServoPos = 0.5;
             double funnelPos = 0.5;
@@ -210,15 +210,15 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
                 claw.setPosition(clawPos);
             }
             if (gamepad2.y) { //Close Claw
-                clawPos = clawPos + 0.05;
+                clawPos = clawPos + 0.2;
                 claw.setPosition(clawPos);
             }
             if (gamepad2.right_stick_x > 0) { // when joystick pushed down Wrist Moves ____?
-                wristPos = wristPos - 0.6;
+                wristPos = wristPos - 0.15;
                 wrist.setPosition(wristPos);
             }
             if (gamepad2.right_stick_x < 0) { //when joystick pushed up Wrist Moves ___?
-                wristPos = wristPos + 0.1;
+                wristPos = wristPos + 1;
                 wrist.setPosition(wristPos);
             }
 
@@ -241,11 +241,11 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
 
 //FUNNEL CODE
                     if (gamepad2.dpad_left) {// Open Funnel
-                        funnelPos = funnelPos + 0.15;
+                        funnelPos = funnelPos - 0.5;
                         funnel.setPosition(funnelPos);
                     }
                     if (gamepad2.dpad_right) {// Close Funnel
-                        funnelPos = funnelPos - 0.5;
+                        funnelPos = funnelPos + 0.12;
                         funnel.setPosition(funnelPos);
                     }
 

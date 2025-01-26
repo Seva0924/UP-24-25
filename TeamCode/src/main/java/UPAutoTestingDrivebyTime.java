@@ -61,7 +61,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
     static final double SLOW_SPEED = 0.09;
     static final double SLOW_SPEEDY = 0.3;
     double clawPos = 0.5;
-    double wristPos = 0.7;
+    double wristPos = 0.5;
     double leftArmServoPos = 0.5;
     double rightArmServoPos = 0.5;
     double funnelPos = 0.5;
@@ -79,6 +79,8 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
         rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
         funnel = hardwareMap.get(Servo.class, "funnel");
+        wrist = hardwareMap.get(Servo.class, "wrist");
+        claw = hardwareMap.get(Servo.class, "claw");
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -97,6 +99,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         waitForStart();
 
         runtime.reset();
+        funnel.setPosition(.62);
         while (opModeIsActive() && (runtime.seconds() < 1.5)) {
             leftFrontDrive.setPower(-TURN_SPEED);
             leftBackDrive.setPower(-TURN_SPEED);
@@ -107,8 +110,11 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
 
-            leftArmServo.setPosition(leftArmServoPos);
-            rightArmServo.setPosition(rightArmServoPos);
+//            leftArmServo.setPosition(leftArmServoPos);
+//            rightArmServo.setPosition(rightArmServoPos);
+            //arms down
+            leftArmServo.setPosition(.39);
+            rightArmServo.setPosition(.64);
 
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -128,9 +134,12 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             telemetry.update();
         }
 
-        while (opModeIsActive() && (runtime.seconds() < 6 && runtime.seconds() > 3.1)) {
+        while (opModeIsActive() && (runtime.seconds() < 4 && runtime.seconds() > 3.1)) {
             vertSlide.setPower((-.10));
-            funnelPos = funnelPos - 0.3;
+            funnelPos = funnelPos - 0.5;
+            funnel.setPosition(funnelPos);
+            sleep(2000);
+            funnelPos = funnelPos + 0.12;
             funnel.setPosition(funnelPos);
         }
         runtime.reset();
@@ -139,48 +148,92 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             telemetry.addData("Runtime", getRuntime());
             telemetry.update();
         }
-        leftArmServo.setPosition(.9);
-        rightArmServo.setPosition(.26);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < .5 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1 && runtime.seconds() > 0)) {
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+        }
+
+        //up pos
+        while (opModeIsActive() && (runtime.seconds() < 3 && runtime.seconds() > 2.8)) {
+            leftArmServo.setPosition(.39);
+            rightArmServo.setPosition(.64);
+        }
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(-TURN_SPEED);
             leftBackDrive.setPower(-TURN_SPEED);
             rightFrontDrive.setPower(TURN_SPEED);
             rightBackDrive.setPower(TURN_SPEED);
+
+        }
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
         }
         leftArmServo.setPosition(.39);
         rightArmServo.setPosition(.64);
+
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() > 2.0 && runtime.seconds() > 0)) {
-            horizontalSlide.setPower(-.95);//slides out
-            telemetry.addData("Runtime", getRuntime());
-            telemetry.update();
+        while (opModeIsActive() && (runtime.seconds() < .35 && runtime.seconds() > 0)) {
+            leftFrontDrive.setPower(TURN_SPEED);
+            leftBackDrive.setPower(TURN_SPEED);
+            rightFrontDrive.setPower(TURN_SPEED);
+            rightBackDrive.setPower(TURN_SPEED);
+        while (opModeIsActive() && (runtime.seconds() < .45 && runtime.seconds() > 0.35)) {
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
         }
-        sleep(1000);
-        claw.setPosition(.15);
-        sleep(1000);
-        claw.setPosition(.55);
-        sleep(1000);
+//        while (opModeIsActive() && (runtime.seconds() > 2.0 && runtime.seconds() > 0)) {
+//            horizontalSlide.setPower(-.95);//slides out
+//            telemetry.addData("Runtime", getRuntime());
+////            telemetry.update();
+//        }
+
+
+        claw.setPosition(.15);//open
+        sleep(2000);
+        claw.setPosition(.7);///close
+        sleep(2000);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() > 2.0 && runtime.seconds() > 0)) {
-            horizontalSlide.setPower(.95);//slides in
-            telemetry.addData("Runtime", getRuntime());
-            telemetry.update();
-        }
+//        while (opModeIsActive() && (runtime.seconds() > 2.0 && runtime.seconds() > 0)) {
+//            horizontalSlide.setPower(.95);//slides in
+//            telemetry.addData("Runtime", getRuntime());
+//            telemetry.update();
+//        }
         //arms raise
         leftArmServo.setPosition(.9);
         rightArmServo.setPosition(.26);
-        //wrist turns
-        wrist.setPosition(.1);
+        //wrist turns for drop
+        wrist.setPosition(1);
         sleep(1000);
 
         //claw opens
         claw.setPosition(.15);
         sleep(1000);
+        wrist.setPosition(.35);//wrist turns for pickup
         //arms down
         leftArmServo.setPosition(.39);
         rightArmServo.setPosition(.64);
         sleep(1000);
+
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 1.5 && runtime.seconds() > 0)) {
+            leftFrontDrive.setPower(TURN_SPEED);
+            leftBackDrive.setPower(TURN_SPEED);
+            rightFrontDrive.setPower(-TURN_SPEED);
+            rightBackDrive.setPower(-TURN_SPEED);
+
+        }
+sleep(4000);
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2.8 && runtime.seconds() > 0)) {
             vertSlide.setPower(-.95);//slides up
@@ -190,7 +243,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 2.8 && runtime.seconds() > 0)) {
             vertSlide.setPower((-.10));
-            funnelPos = funnelPos - 0.3;
+            funnelPos = funnelPos + 0.5;
             funnel.setPosition(funnelPos);
         }
         sleep(1000);
@@ -199,20 +252,30 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         runtime.reset();
         sleep(1000);
         while (opModeIsActive() && (runtime.seconds() < 2.8 && runtime.seconds() > 0)) {
-            vertSlide.setPower(.95);//slides up
+            vertSlide.setPower(.95);//slides down
             telemetry.addData("Runtime", getRuntime());
             telemetry.update();
         }
-        leftFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        rightBackDrive.setPower(0);
-        vertSlide.setPower(0);
-        horizontalSlide.setPower(0);
+//        leftFrontDrive.setPower(0);
+//        leftBackDrive.setPower(0);
+//        rightFrontDrive.setPower(0);
+//        rightBackDrive.setPower(0);
+//        vertSlide.setPower(0);
+//        horizontalSlide.setPower(0);
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Claw", clawPos);
+        telemetry.addData("Wrist", wristPos);
+        telemetry.addData("LeftArmServo", leftArmServoPos);
+        telemetry.addData("RightArmServo", rightArmServoPos);
+        telemetry.addData("funnel", funnelPos);
+        telemetry.addData("HorizontalSlide", horizontalSlide.getPower());
+        telemetry.addData("vertSlide", vertSlide.getPower());
+        telemetry.addData("Turn Speed", TURN_SPEED);
+        telemetry.update();
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
 
     }
-}
+}}
 
