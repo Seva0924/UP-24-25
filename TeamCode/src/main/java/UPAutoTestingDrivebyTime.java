@@ -58,7 +58,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
     static final double FORWARD_SPEED = 0.6;
     static final double TURN_SPEED = 0.5;
     static final double SLIDE_SPEED = 0.95;
-    static final double SLOW_SPEED = 0.09;
+    static final double SLOW_SPEED = 0.25;
     static final double SLOW_SPEEDY = 0.3;
     double clawPos = 0.5;
     double wristPos = 0.5;
@@ -100,11 +100,19 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
 //backwards
         runtime.reset();
         funnel.setPosition(.62);
-        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
-            leftFrontDrive.setPower(-TURN_SPEED);
-            leftBackDrive.setPower(-TURN_SPEED);
-            rightFrontDrive.setPower(-TURN_SPEED);
-            rightBackDrive.setPower(-TURN_SPEED);
+        wrist.setPosition(.35);
+        while (opModeIsActive() && (runtime.seconds() < 0.5)) {
+            leftArmServo.setPosition(.36);
+            rightArmServo.setPosition(.67);
+        }
+        while (opModeIsActive() && (runtime.seconds() < 3.5 && runtime.seconds() > 0.5)) {
+            leftFrontDrive.setPower(-SLOW_SPEED);
+            leftBackDrive.setPower(-SLOW_SPEED);
+            rightFrontDrive.setPower(-SLOW_SPEED);
+            rightBackDrive.setPower(-SLOW_SPEED);
+            vertSlide.setPower(-.95);//slides up
+            telemetry.addData("Runtime", getRuntime());
+            telemetry.update();
             telemetry.addData("Backwards Successful", getRuntime());
             telemetry.update();
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
@@ -113,8 +121,8 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
 //            leftArmServo.setPosition(leftArmServoPos);
 //            rightArmServo.setPosition(rightArmServoPos);
             //arms down
-            leftArmServo.setPosition(.39);
-            rightArmServo.setPosition(.64);
+            leftArmServo.setPosition(.36);
+            rightArmServo.setPosition(.67);
 
             telemetry.addData("Path", "Leg 3: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
@@ -126,21 +134,16 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             leftBackDrive.setPower(0);
             rightFrontDrive.setPower(0);
             rightBackDrive.setPower(0);
+            vertSlide.setPower(-.10);//slides up
         }
 
-        while (opModeIsActive() && (runtime.seconds() < 3.3 && runtime.seconds() > 0.3)) {
-            vertSlide.setPower(-.95);//slides up
-            telemetry.addData("Runtime", getRuntime());
-            telemetry.update();
-        }
 
-        while (opModeIsActive() && (runtime.seconds() < 4 && runtime.seconds() > 3.1)) {
+        while (opModeIsActive() && (runtime.seconds() < 1)) {
             vertSlide.setPower((-.10));
             funnelPos = funnelPos - 0.5;
             funnel.setPosition(funnelPos);
             sleep(2000);
-            funnelPos = funnelPos + 0.12;
-            funnel.setPosition(funnelPos);
+            funnel.setPosition(.62);
         }
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 0.2 && runtime.seconds() > 0)) {
@@ -186,7 +189,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             rightArmServo.setPosition(.64);
         }
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.9 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.87 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(-TURN_SPEED);
             leftBackDrive.setPower(-TURN_SPEED);
             rightFrontDrive.setPower(TURN_SPEED);
@@ -204,13 +207,13 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         rightArmServo.setPosition(.64);
 
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.5 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.4 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(TURN_SPEED);
             leftBackDrive.setPower(TURN_SPEED);
             rightFrontDrive.setPower(TURN_SPEED);
             rightBackDrive.setPower(TURN_SPEED);
         }
-        while (opModeIsActive() && (runtime.seconds() < .55 && runtime.seconds() > 0.5)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.5 && runtime.seconds() > 0.4)) {
             leftFrontDrive.setPower(0);
             leftBackDrive.setPower(0);
             rightFrontDrive.setPower(0);
