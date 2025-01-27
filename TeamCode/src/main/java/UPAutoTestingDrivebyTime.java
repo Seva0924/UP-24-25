@@ -146,7 +146,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             funnel.setPosition(.62);
         }
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.2 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.3 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(TURN_SPEED);
             leftBackDrive.setPower(TURN_SPEED);
             rightFrontDrive.setPower(TURN_SPEED);
@@ -168,7 +168,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             telemetry.update();
         }
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.2 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.3 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(-TURN_SPEED);
             leftBackDrive.setPower(-TURN_SPEED);
             rightFrontDrive.setPower(-TURN_SPEED);
@@ -189,7 +189,7 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             rightArmServo.setPosition(.64);
         }
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.87 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.94 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(-TURN_SPEED);
             leftBackDrive.setPower(-TURN_SPEED);
             rightFrontDrive.setPower(TURN_SPEED);
@@ -207,13 +207,27 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         rightArmServo.setPosition(.64);
 
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 0.4 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.53 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(TURN_SPEED);
             leftBackDrive.setPower(TURN_SPEED);
             rightFrontDrive.setPower(TURN_SPEED);
             rightBackDrive.setPower(TURN_SPEED);
         }
-        while (opModeIsActive() && (runtime.seconds() < 0.5 && runtime.seconds() > 0.4)) {
+        while (opModeIsActive() && (runtime.seconds() < 0.6 && runtime.seconds() > 0.55)) {
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+        }
+
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.1 && runtime.seconds() > 0)) {
+            leftFrontDrive.setPower(-TURN_SPEED);
+            leftBackDrive.setPower(-TURN_SPEED);
+            rightFrontDrive.setPower(TURN_SPEED);
+            rightBackDrive.setPower(TURN_SPEED);
+        }
+        while (opModeIsActive() && (runtime.seconds() < 0.15 && runtime.seconds() > 0.1)) {
             leftFrontDrive.setPower(0);
             leftBackDrive.setPower(0);
             rightFrontDrive.setPower(0);
@@ -253,6 +267,20 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         sleep(1000);
 
         runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.1 && runtime.seconds() > 0)) {
+            leftFrontDrive.setPower(TURN_SPEED);
+            leftBackDrive.setPower(TURN_SPEED);
+            rightFrontDrive.setPower(-TURN_SPEED);
+            rightBackDrive.setPower(-TURN_SPEED);
+        }
+        while (opModeIsActive() && (runtime.seconds() < 0.15 && runtime.seconds() > 0.1)) {
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+        }
+
+        runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 0.5 && runtime.seconds() > 0)) {
             leftFrontDrive.setPower(-TURN_SPEED);
             leftBackDrive.setPower(-TURN_SPEED);
@@ -287,6 +315,21 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
         wrist.setPosition(.35);//wrist turns for pickup
 
         runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < 0.2 && runtime.seconds() > 0)) {
+            leftFrontDrive.setPower(-TURN_SPEED);
+            leftBackDrive.setPower(-TURN_SPEED);
+            rightFrontDrive.setPower(-TURN_SPEED);
+            rightBackDrive.setPower(-TURN_SPEED);
+
+        }
+        runtime.reset();
+        while (opModeIsActive() && (runtime.seconds() < .5 && runtime.seconds() > 0)) {
+            leftFrontDrive.setPower(0);
+            leftBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+        }
+        runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3 && runtime.seconds() > 0)) {
             vertSlide.setPower(-.95);//slides up
             telemetry.addData("Runtime", getRuntime());
@@ -298,12 +341,12 @@ public class UPAutoTestingDrivebyTime extends LinearOpMode {
             funnelPos = funnelPos + 0.5;
             funnel.setPosition(funnelPos);
         }
-        sleep(1000);
+
         claw.setPosition(.15);
 
         runtime.reset();
-        sleep(1000);
-        while (opModeIsActive() && (runtime.seconds() < 3 && runtime.seconds() > 0)) {
+        while (opModeIsActive() && (runtime.seconds() < 2.8 && runtime.seconds() > 0)) {
+            funnel.setPosition(.62);
             vertSlide.setPower(.95);//slides down
             telemetry.addData("Runtime", getRuntime());
             telemetry.update();
