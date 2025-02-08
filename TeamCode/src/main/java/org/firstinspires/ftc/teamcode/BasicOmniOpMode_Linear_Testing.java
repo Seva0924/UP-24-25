@@ -206,7 +206,7 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
             double funnelPos = 0.5;
 //CLAW CODE
             if (gamepad2.y) { //Open Claw
-                clawPos = clawPos - 0.35;
+                clawPos = clawPos - 0.15;
                 claw.setPosition(clawPos);
             }
             if (gamepad2.x) { //Close Claw
@@ -214,11 +214,11 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
                 claw.setPosition(clawPos);
             }
             if (gamepad2.right_stick_x < 0) { // when joystick pushed left Wrist Moves to Out position
-                wristPos = wristPos - 0.15;
+                wristPos = wristPos - 0.225;
                 wrist.setPosition(wristPos);
             }
             if (gamepad2.right_stick_x > 0) { //when joystick pushed right Wrist Moves flips into the robot
-                wristPos = wristPos + 1;
+                wristPos = wristPos + 0.4;
                 wrist.setPosition(wristPos);
             }
 
@@ -240,26 +240,26 @@ public class BasicOmniOpMode_Linear_Testing extends LinearOpMode {
                     extension.setPower(0);
 
 //FUNNEL CODE
-                    if (gamepad2.dpad_right) {// Open Funnel
-                        funnelPos = funnelPos - 0.5;
+                    if (gamepad2.dpad_right) {
+                        funnelPos = funnelPos + .12;
                         funnel.setPosition(funnelPos);
                     }
                     if (gamepad2.dpad_left) {// Close Funnel
-                        funnelPos = funnelPos + 0.12;
+                        funnelPos = funnelPos - 0.5;
                         funnel.setPosition(funnelPos);
                     }
 
 //ARMS CODE
-                    if (gamepad2.right_bumper) { //Arms Raise
-                        leftArmServoPos = leftArmServoPos + 0.35;// position= 0.86; original (add .34 -- pos .84)
+                    if (gamepad2.right_bumper) { //Arms lower
+                        leftArmServoPos = leftArmServoPos + 0.34;// position= 0.86; original (add .34 -- pos .84)
                         leftArmServo.setPosition(leftArmServoPos);
-                        rightArmServoPos = rightArmServoPos - 0.29;// position= 0.19; original (sub .34 -- pos .16)
+                        rightArmServoPos = rightArmServoPos - 0.28;// position= 0.19; original (sub .34 -- pos .16)
                         rightArmServo.setPosition(rightArmServoPos);
                     }
-                    if (gamepad2.left_bumper) { //Arms Lower
-                        leftArmServoPos = leftArmServoPos - 0.16;//position= 0.35; original (sub .13 -- pos .37)
+                    if (gamepad2.left_bumper) { //Arms raise
+                        leftArmServoPos = leftArmServoPos - 0.07;//position= 0.35; original (sub .13 -- pos .37)
                         leftArmServo.setPosition(leftArmServoPos);
-                        rightArmServoPos = rightArmServoPos + 0.19;//position= 0.70; original (add .13 -- pos .63)
+                        rightArmServoPos = rightArmServoPos + 0.10;//position= 0.70; original (add .13 -- pos .63)
                         rightArmServo.setPosition(rightArmServoPos);
                     }
 
