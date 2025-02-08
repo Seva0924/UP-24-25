@@ -96,7 +96,7 @@ public class UPEncoderAuto extends LinearOpMode {
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.95;
     static final double     TURN_SPEED              = 0.95;
-    static final double     SLOW_SPEED             = 0.3;
+    static final double     SLOW_SPEED             = 0.6;
     @Override
     public void runOpMode() {
 
@@ -202,7 +202,7 @@ public class UPEncoderAuto extends LinearOpMode {
             vertSlide.setPower(0);
             encoderDrive(DRIVE_SPEED,  -2,  -2, 5.0);
             funnel.setPosition(.62);//open
-            sleep(2000);
+            sleep(700);
             funnel.setPosition(0);//close
         }
         encoderDrive(DRIVE_SPEED,  13,  13, 5.0);
@@ -249,18 +249,18 @@ public class UPEncoderAuto extends LinearOpMode {
         sleep(300);
         claw.setPosition(.7);//close
 //        encoderDrive(TURN_SPEED,  2,  -2, 10.0);
-        sleep(700);
+        sleep(500);
         leftArmServo.setPosition(.43);//arms up
         rightArmServo.setPosition(.6);//arms uo
-        sleep(700);
+        sleep(500);
         wrist.setPosition(.9);//wrist turns for drop
-        sleep(1200);
+        sleep(1000);
         claw.setPosition(.15);//calw opens
         sleep(1000);
 
         leftArmServo.setPosition(0.84);//arms down
         rightArmServo.setPosition(0.22);//arms down
-        sleep(400);
+        sleep(100);
         wrist.setPosition(0.275);//wrist turns for pick up
         encoderDrive(TURN_SPEED,  -9,  -9, 10.0);
         encoderDrive(TURN_SPEED,  15,  -15, 7.0);
@@ -271,8 +271,9 @@ public class UPEncoderAuto extends LinearOpMode {
             telemetry.addData("Runtime", getRuntime());
             telemetry.update();
         }
-        encoderDrive(TURN_SPEED,  -12,  -12, 7.0);
+//        encoderDrive(TURN_SPEED,  -12,  -12, 7.0);
         while (opModeIsActive() && (runtime.seconds() < 1)) {
+            encoderDrive(TURN_SPEED,  -12,  -12, 7.0);
             vertSlide.setPower(0);
             funnel.setPosition(.62);//open
             sleep(2000);
@@ -282,31 +283,32 @@ public class UPEncoderAuto extends LinearOpMode {
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.5 && runtime.seconds() > 0)) {
             vertSlide.setPower(-.95);//slides down
+            encoderDrive(TURN_SPEED,  -15,   15, 7.0);
             telemetry.addData("Runtime", getRuntime());
             telemetry.update();
         }
-        encoderDrive(TURN_SPEED,  -15,   15, 7.0);
+//        encoderDrive(TURN_SPEED,  -15,   15, 7.0);
 
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+//        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+//        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+//        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+//        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
 //        encoderDrive(DRIVE_SPEED,  -4,  -4, 5.0);  //straif left
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        vertSlide.setDirection(DcMotor.Direction.FORWARD);
+//        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+//        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+//        rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+//        leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
+//        vertSlide.setDirection(DcMotor.Direction.FORWARD);
 
-        encoderDrive(TURN_SPEED,   7,   7, 7.0);
+        encoderDrive(TURN_SPEED,   6.7,   6.7, 7.0);
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
-        encoderDrive(DRIVE_SPEED,  -8,  -8, 5.0);  //straif left
+        encoderDrive(DRIVE_SPEED,  -9,  -9, 5.0);  //straif left
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -314,14 +316,14 @@ public class UPEncoderAuto extends LinearOpMode {
         vertSlide.setDirection(DcMotor.Direction.FORWARD);
 
         claw.setPosition(.7);//close
-        sleep(700);
+        sleep(650);
         leftArmServo.setPosition(.43);//arms up
         rightArmServo.setPosition(.6);//arms uo
-        sleep(700);
+        sleep(650);
         wrist.setPosition(.9);//wrist turns for drop
-        sleep(1200);
+        sleep(900);
         claw.setPosition(.15);//calw opens
-        sleep(700);
+        sleep(900);
 //        encoderDrive(TURN_SPEED,  5,   -5, 7.0);
         encoderDrive(TURN_SPEED,  -8,   -8, 7.0);
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -340,13 +342,14 @@ public class UPEncoderAuto extends LinearOpMode {
         runtime.reset();
         leftArmServo.setPosition(0.84);//arms down
         rightArmServo.setPosition(0.22);//arms down
-        sleep(200);
+        sleep(100);
         while (opModeIsActive() && (runtime.seconds() < 2.4 && runtime.seconds() > 0)) {
             vertSlide.setPower(.95);//slides up
+            encoderDrive(TURN_SPEED,  -14,   -14, 7.0);
             telemetry.addData("Runtime", getRuntime());
             telemetry.update();
         }
-        encoderDrive(TURN_SPEED,  -14,   -14, 7.0);
+//        encoderDrive(TURN_SPEED,  -14,   -14, 7.0);
         while (opModeIsActive() && (runtime.seconds() < 1)) {
             vertSlide.setPower(0);
             funnel.setPosition(.62);//open
